@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "getMetricData <- function(prodata, peptide, L, U, metric, normalization) {\n  precursor.data<-prodata[prodata$Precursor==peptide,] #\"Precursor\" is one of the columns in data that shows the name of peptides\n  metricData <- 0\n\n  if(is.null(metric)){\n    return(NULL)\n  }\n\n  metricData = precursor.data[,metric]\n  if(normalization == TRUE) {\n    mu=mean(metricData[L:U]) # in-control process mean\n    sd=sd(metricData[L:U]) # in-control process variance\n    if(sd == 0) {sd <- 0.0001}\n    metricData=scale(metricData[1:length(metricData)],mu,sd) # transformation for N(0,1) )\n    return(metricData)\n  } else if(normalization == FALSE){\n    return(metricData)\n  }\n\n}\n",
+    "created" : 1483810622946.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2494450401",
+    "id" : "A2F194A0",
+    "lastKnownWriteTime" : 1483807669,
+    "last_content_update" : 1483807669,
+    "path" : "~/GitHub/MSstatsQC/R/getMetricData.R",
+    "project_path" : "R/getMetricData.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
