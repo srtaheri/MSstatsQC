@@ -16,7 +16,7 @@
 #' @examples
 #' CP.plot()
 
-###############################################################################################
+
 CP.plot <- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "Change Point Plot", type = "mean") {
 
   data <- input_checking(data)
