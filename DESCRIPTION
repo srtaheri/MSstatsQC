@@ -1,10 +1,11 @@
 Package: MSstatsQC
+Version: 1.1.0
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Title: Longitudinal system suitability monitoring and quality control for proteomic experiments 
+Authors@R: person("First", "Last", email = "first.last@example.com",
+                  role = c("aut", "cre"))
+Description: MSstatsQC is an R package which provides longitudinal system suitability monitoring tools for proteomic experiments. 
+License: Artistic License 2.0
 LazyData: TRUE
 RoxygenNote: 5.0.1
 Imports: dplyr,plotly,RecordLinkage

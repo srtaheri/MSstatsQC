@@ -3,8 +3,10 @@
 #' This function allows you to calculate change point statistics for a step change.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param peptide The name of precursor you want to draw the plot for
-#' @param L Lower bound of the giude set
+#' @param L Lower bound of the guide set
 #' @param U Upper bound of the guide set
+#' @param metric QCmetric to be monitored
+#' @param normalization TRUE if QC metric is standardized and FALSE if not standardized
 #' @param ytitle The y-axis title of the plot. The x-axis title is by default "QCno-name of peptide"
 #' @param type can take two values, "mean" or "dispersion".
 #' @keywords Change point

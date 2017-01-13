@@ -12,6 +12,7 @@ document()
 ###############################################################
 ####### START FROM HERE########################################
 setwd("/Users/ed/GitHub")
+options(devtools.desc.author="'First Last <first.last@example.com> [aut, cre]'")
 install("MSstatsQC", dep=TRUE)
 library(MSstatsQC)
 
