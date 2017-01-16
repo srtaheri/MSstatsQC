@@ -29,4 +29,3 @@ XmR.plot()
 \keyword{XmR}
 \keyword{chart}
 \keyword{control}
-

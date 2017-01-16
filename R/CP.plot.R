@@ -11,14 +11,9 @@
 #' @param type can take two values, "mean" or "dispersion".
 #' @keywords Change point
 #'          control chart
-#' @export
 #' @import dplyr
 #' @import plotly
 #' @import RecordLinkage
-#' @references 
-#' @author 
-#' @S3method 
-#' @examples
 #' CP.plot()
 
 

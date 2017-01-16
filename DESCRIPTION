@@ -7,5 +7,5 @@ Authors@R: person("First", "Last", email = "first.last@example.com",
 Description: MSstatsQC is an R package which provides longitudinal system suitability monitoring tools for proteomic experiments. 
 License: Artistic License 2.0
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 Imports: dplyr,plotly,RecordLinkage

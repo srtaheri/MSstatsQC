@@ -12,9 +12,13 @@ CP.plot(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
 
 \item{peptide}{The name of precursor you want to draw the plot for}
 
-\item{L}{Lower bound of the giude set}
+\item{L}{Lower bound of the guide set}
 
 \item{U}{Upper bound of the guide set}
+
+\item{metric}{QCmetric to be monitored}
+
+\item{normalization}{TRUE if QC metric is standardized and FALSE if not standardized}
 
 \item{ytitle}{The y-axis title of the plot. The x-axis title is by default "QCno-name of peptide"}
 
@@ -30,4 +34,3 @@ CP.plot()
 \keyword{chart}
 \keyword{control}
 \keyword{point}
-
