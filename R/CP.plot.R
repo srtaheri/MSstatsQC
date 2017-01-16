@@ -15,6 +15,9 @@
 #' @import dplyr
 #' @import plotly
 #' @import RecordLinkage
+#' @references 
+#' @author 
+#' @S3method 
 #' @examples
 #' CP.plot()
 
