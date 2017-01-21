@@ -19,4 +19,5 @@ library(MSstatsQC)
 setwd('/Users/ed/GitHub/msstats-qc/datasets')
 #################
 ## Import datasets
-prodata <- read.csv('Study9.1-Site54.csv') 
+CPTAC.Study9.1.Site54 <- read.csv('Study9.1-Site54.csv') 
+save(CPTAC.Study9.1.Site54 , file="data/CPTAC.Study9.1.Site54.RData")

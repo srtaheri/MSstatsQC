@@ -1,11 +1,11 @@
 #' A Change Point (CP) Function
 #'
-#' This function allows you to calculate change point statistics for a step change.
+#' This function allows you to calculate change point statistics for a step change in mean or variability.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param peptide The name of precursor you want to draw the plot for
 #' @param L Lower bound of the guide set
 #' @param U Upper bound of the guide set
-#' @param metric QCmetric to be monitored
+#' @param metric QC metric to be monitored
 #' @param normalization TRUE if QC metric is standardized and FALSE if not standardized
 #' @param ytitle The y-axis title of the plot. The x-axis title is by default "QCno-name of peptide"
 #' @param type can take two values, "mean" or "dispersion".
@@ -14,9 +14,8 @@
 #' @import dplyr
 #' @import plotly
 #' @import RecordLinkage
+#' @examples
 #' CP.plot()
-
-
 CP.plot <- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "Change Point Plot", type = "mean") {
 
   data <- input_checking(data)

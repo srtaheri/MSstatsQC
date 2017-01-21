@@ -1,4 +1,4 @@
-#' A XmR Function
+#' An Individual (X) and Moving Range (mR) Function
 #'
 #' This function allows you to calculate XmR statistics for a step change.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
