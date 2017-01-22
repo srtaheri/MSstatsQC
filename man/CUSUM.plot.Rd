@@ -30,3 +30,4 @@ CUSUM.plot()
 \keyword{Sum,}
 \keyword{chart}
 \keyword{control}
+

@@ -22,3 +22,4 @@ XmR.Summary.plot.plot()
 \keyword{Summary}
 \keyword{XmR}
 \keyword{plot}
+

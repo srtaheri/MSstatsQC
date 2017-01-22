@@ -2,7 +2,7 @@
 % Please edit documentation in R/XmR.plot.R
 \name{XmR.plot}
 \alias{XmR.plot}
-\title{A XmR Function}
+\title{An Individual (X) and Moving Range (mR) Function}
 \usage{
 XmR.plot(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
   ytitle = "XmR Plot", type = "mean")
@@ -29,3 +29,4 @@ XmR.plot()
 \keyword{XmR}
 \keyword{chart}
 \keyword{control}
+

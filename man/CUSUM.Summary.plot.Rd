@@ -22,3 +22,4 @@ CUSUM.Summary.plot.plot()
 \keyword{CUSUM}
 \keyword{Summary}
 \keyword{plot}
+

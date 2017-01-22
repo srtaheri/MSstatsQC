@@ -130,10 +130,10 @@ input.sanity.check <- function(prodata, finalfile) {
   prodata$MinStartTime <- as.numeric(gsub(",","",prodata$MinStartTime))
   # Define peak assymetry
   peakAss <- 2*prodata$MinStartTime/(prodata$MaxEndTime+prodata$MinStartTime)
-  # locate a new column named "Peak Assymetry" right after the column named "MaxEndTime"
-  prodata.first <- prodata[,1:which(colnames(prodata)=="MaxEndTime")]
+  # locate a new column named "Peak Assymetry" right after the column named "Annotation"
+  prodata.first <- prodata[,1:which(colnames(prodata)=="Annotations")]
   prodata.first[,"Peak Assymetry"]<- peakAss
-  prodata <- cbind(prodata.first, prodata[,(which(colnames(prodata)=="MaxEndTime")+1):ncol(prodata), drop = FALSE])
+  prodata <- cbind(prodata.first, prodata[,(which(colnames(prodata)=="Annotations")+1):ncol(prodata), drop = FALSE])
   # some data migh have annotation column, some might not have. If it doesn't, we create an empty "Annotation" column at the very end column of the data
   if(!("Annotations" %in% colnames(prodata))) {
     prodata[,"Annotations"] <- NA

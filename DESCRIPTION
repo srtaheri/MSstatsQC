@@ -1,13 +1,16 @@
 Package: MSstatsQC
 Version: 1.1.0
 Type: Package
-Title: Longitudinal system suitability monitoring and quality control for proteomic experiments 
+Title: Longitudinal system suitability monitoring and quality control for
+    proteomic experiments
 Authors@R: c(person("Eralp", "Dogu", email = "eralp.dogu@gmail.com",
-                  role = c("aut", "cre")), 
+                  role = c("aut", "cre")),
              person("Sara", "Taheri", email = "srtaheri66@gmail.com",
-                  role = c("aut", "cre")))
-Description: MSstatsQC is an R package which provides longitudinal system suitability monitoring tools for proteomic experiments. 
+                  ))
+Description: MSstatsQC is an R package which provides longitudinal system
+    suitability monitoring tools for proteomic experiments.
 License: Artistic License 2.0
 LazyData: TRUE
-RoxygenNote: 5.0.1.9000
-Imports: dplyr,plotly,RecordLinkage
+RoxygenNote: 5.0.1
+Imports:
+    dplyr,plotly,RecordLinkage

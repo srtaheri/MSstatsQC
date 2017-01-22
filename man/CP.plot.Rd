@@ -16,7 +16,7 @@ CP.plot(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
 
 \item{U}{Upper bound of the guide set}
 
-\item{metric}{QCmetric to be monitored}
+\item{metric}{QC metric to be monitored}
 
 \item{normalization}{TRUE if QC metric is standardized and FALSE if not standardized}
 
@@ -25,7 +25,7 @@ CP.plot(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
 \item{type}{can take two values, "mean" or "dispersion".}
 }
 \description{
-This function allows you to calculate change point statistics for a step change.
+This function allows you to calculate change point statistics for a step change in mean or variability.
 }
 \examples{
 CP.plot()
@@ -34,3 +34,4 @@ CP.plot()
 \keyword{chart}
 \keyword{control}
 \keyword{point}
+
