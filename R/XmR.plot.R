@@ -14,9 +14,9 @@
 #' @import plotly
 #' @import RecordLinkage
 #' @examples
-#' XmR.plot()
+#' XmRPlots()
 #########################################################################################################################
-XmR.plot <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "XmR Plot", type = "mean") {
+XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "XmR Plot", type = "mean") {
   data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)

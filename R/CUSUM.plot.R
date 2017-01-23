@@ -13,10 +13,10 @@
 #' @import plotly
 #' @import RecordLinkage
 #' @examples
-#' CUSUM.plot()
+#' CuSumPlots()
 
 #################################################################################################
-CUSUM.plot <- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "CUSUM Plot", type = "mean") {
+CuSumPlots<- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "CUSUM Plot", type = "mean") {
   data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)

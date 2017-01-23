@@ -1,4 +1,4 @@
-#' heatmap plot
+#' Decision maker
 #'
 #' This function allows you to draw the heatmap plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
@@ -17,10 +17,10 @@
 #' @import RecordLinkage
 #' @import grid
 #' @examples
-#' heatmap.plot()
+#' DecisionMaker()
 
 #########################################################################################################
-heatmap.plot <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot",selectMean = NULL,selectSD = NULL) {
+DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot",selectMean = NULL,selectSD = NULL) {
   data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)

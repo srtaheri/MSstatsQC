@@ -11,8 +11,8 @@
 #' @import RecordLinkage
 #' @import grid
 #' @examples
-#' XmR.Summary.plot.plot()
-XmR.Summary.plot <- function(data, L, U) {
+#' XmRSummaryPlots()
+XmRSummaryPlots <- function(data, L, U) {
   data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
@@ -71,8 +71,8 @@ XmR.Summary.plot <- function(data, L, U) {
 #' @import ggplot2
 #' @import RecordLinkage
 #' @examples
-#' CUSUM.Summary.plot.plot()
-CUSUM.Summary.plot <- function(data, L, U) {
+#' CUSUMSummaryPlots()
+CUSUMSummaryPlots <- function(data, L, U) {
   data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
