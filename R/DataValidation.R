@@ -1,6 +1,5 @@
 
-#library(RecordLinkage)
-
+### Input_checking function #########################################################################################
 COL.BEST.RET <- "Retention Time"
 COL.FWHM <- "Full Width at Half Maximum"
 COL.TOTAL.AREA <- "Total Peak Area"
@@ -43,9 +42,9 @@ clearString <- function(x){
 # This function receives the data and check the column names of data and changes the column names if it is not the
 # same names as our suggested sample data to fit our suggested sample data
 guessColumnName <- function(x){
-
-a <- clearString(x)
-
+  
+  a <- clearString(x)
+  
   max_index <- 0
   max <- -1
   for(i in 1:length(best_colnames)){
@@ -67,13 +66,13 @@ a <- clearString(x)
 }
 
 input.sanity.check <- function(prodata, finalfile) {
-
+  
   error_message <- ""
-
+  
   # get the column names and change them to the column names that we want (For ecample we want Retention Time but a user might use RT, this function auotomatically change RT to Retention Time)
   colnames(prodata) <- unlist(lapply(colnames(prodata), function(x)guessColumnName(x)))
-
-
+  
+  
   ### conditions
   # check that the data includes all the requiered columns and if not tell user what column is missing
   required_column_names <- c("Precursor","Retention Time","Full Width at Half Maximum","Total Peak Area","MinStartTime"
@@ -86,40 +85,40 @@ input.sanity.check <- function(prodata, finalfile) {
                            " is(are) not provided in data set. Please add it to your data and try again.\n\n")
     #return(error_message)
   }
-
+  
   # check that all columns other than Precursor and Acquired Time and Annotations are numeric.
-   if(!is.numeric(prodata[,COL.BEST.RET]) || !all(prodata[,COL.BEST.RET] > 0)) {
-     error_message <- paste(error_message, "All the values of Retention Time should be numeric and positive.\n\n")
-     #return(error_message)
-   }
-
-
-   if(!is.numeric(prodata[,COL.FWHM]) || !all(prodata[,COL.FWHM] > 0)) {
-     error_message <- paste(error_message,"All the values of Full Width at Half Maximum should be numeric and positive.\n\n")
-     #return(error_message)
-   }
-
+  if(!is.numeric(prodata[,COL.BEST.RET]) || !all(prodata[,COL.BEST.RET] > 0)) {
+    error_message <- paste(error_message, "All the values of Retention Time should be numeric and positive.\n\n")
+    #return(error_message)
+  }
+  
+  
+  if(!is.numeric(prodata[,COL.FWHM]) || !all(prodata[,COL.FWHM] > 0)) {
+    error_message <- paste(error_message,"All the values of Full Width at Half Maximum should be numeric and positive.\n\n")
+    #return(error_message)
+  }
+  
   if(!is.numeric(prodata[,COL.TOTAL.AREA]) || !all(prodata[,COL.TOTAL.AREA] > 0)) {
     error_message <- paste(error_message,"All the values of Total Peak Area should be numeric and positive.\n\n")
     #return(error_message)
   }
-
-
+  
+  
   if(!is.numeric(prodata$MaxEndTime) || !all(prodata$MaxEndTime > 0)) {
     error_message <- paste(error_message,"All the values of Max End Time should be numeric and positive.\n\n")
     #return(error_message)
   }
-
+  
   if(!is.numeric(prodata$MinStartTime) || !all(prodata$MinStartTime > 0)) {
     error_message <- paste(error_message,"All the values of Min End Time should be numeric and positive. \n\n")
     #return(error_message)
   }
-
+  
   if(error_message != "") {
     return(paste(error_message, "Please check the values to make sure all the inputs are numeric and positive and then try again."))
   }
   # for custom metrics we are checking them to be numeric in QCMetrics in "find_custom_metrics" function and only accepting numeric columns after Annotation
-
+  
   # if there is any missing value in data replace it with NA
   prodata[prodata==""] <- NA
   # some times numeric values of some users are like 333,222 which is not acceptable and we convert it to 333222 by replacing "," to ""
@@ -138,39 +137,7 @@ input.sanity.check <- function(prodata, finalfile) {
   if(!("Annotations" %in% colnames(prodata))) {
     prodata[,"Annotations"] <- NA
   }
-
+  
   return(prodata)
-
-}
-
-### Input_checking function #########################################################################################
-
-input_checking <- function(data){
-
-  ## save process output in each step #### creating a log file ########### from Meena's code
-  allfiles <- list.files()
-
-  num <- 0
-  filenaming <- "./log/msstatsqc"
-  finalfile <- "msstatsqc.log"
-
-  while(is.element(finalfile,allfiles)) {
-    num <- num+1
-    finalfile <- paste(paste(filenaming,num,sep="-"),".log",sep="")
-  }
-
-  #session <- sessionInfo()
-  #sink("./log/sessionInfo.txt")
-  #print(session)
-  #sink()
-
-  #processout <- as.matrix(read.table("./log/sessionInfo.txt", header=T, sep="\t"))
-  #write.table(processout, file=finalfile, row.names=FALSE)
-
-  #processout <- rbind(processout, as.matrix(c(" "," ","MSstatsqc - dataProcess function"," "),ncol=1))
-
-  data <- input.sanity.check(data, finalfile)
-
-
-  return(data)
+  
 }
