@@ -1,6 +1,6 @@
 #' A Change Point (CP) Function
 #'
-#' This function allows you to calculate change point statistics for a step change in mean or variability.
+#' This function allows you to calculate change point statistics for a step change in mean or variability. 
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param peptide The name of precursor you want to draw the plot for
 #' @param L Lower bound of the guide set

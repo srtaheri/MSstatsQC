@@ -2,7 +2,7 @@
 % Please edit documentation in R/heatmap.plot.R
 \name{DecisionMaker}
 \alias{DecisionMaker}
-\title{Decision maker}
+\title{Heatmaps for visualization of overall system performance}
 \usage{
 DecisionMaker(data, method, peptideThresholdRed = 0.7,
   peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
@@ -30,7 +30,7 @@ DecisionMaker(data, method, peptideThresholdRed = 0.7,
 \item{selectSD}{If you want to choose standard deviation yourself and do not want to use the guide set. Defaults to NULL}
 }
 \description{
-This function allows you to draw the heatmap plot.
+This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
 }
 \examples{
 DecisionMaker()

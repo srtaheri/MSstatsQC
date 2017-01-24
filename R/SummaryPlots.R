@@ -1,4 +1,4 @@
-#' XmR summary plot
+#' A river and a radar plot to summarize results from XmR plots
 #'
 #' This function allows you to draw the XmR summary plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
@@ -59,7 +59,7 @@ XmRSummaryPlots <- function(data, L, U) {
 }
 
 #################################################################################################
-#' CUSUM summary plot
+#' A river and a radar plot to summarize results from CUSUMm and CUSUMv plots
 #'
 #' This function allows you to draw the CUSUM summary plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.

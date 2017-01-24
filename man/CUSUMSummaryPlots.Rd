@@ -2,7 +2,7 @@
 % Please edit documentation in R/SummaryPlots.R
 \name{CUSUMSummaryPlots}
 \alias{CUSUMSummaryPlots}
-\title{CUSUM summary plot}
+\title{A river and a radar plot to summarize results from CUSUMm and CUSUMv plots}
 \usage{
 CUSUMSummaryPlots(data, L, U)
 }

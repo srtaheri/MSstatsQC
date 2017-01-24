@@ -1,6 +1,6 @@
-#' Decision maker
+#' Heatmaps for visualization of overall system performance 
 #'
-#' This function allows you to draw the heatmap plot.
+#' This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param method It is either "CUSUM" or "XmR"
 #' @param peptideThresholdRed Is a threshold that marks percentage of peptides above it red on the heatmap. Defaults to 0.7

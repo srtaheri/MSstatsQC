@@ -2,7 +2,7 @@
 % Please edit documentation in R/SummaryPlots.R
 \name{XmRSummaryPlots}
 \alias{XmRSummaryPlots}
-\title{XmR summary plot}
+\title{A river and a radar plot to summarize results from XmR plots}
 \usage{
 XmRSummaryPlots(data, L, U)
 }
