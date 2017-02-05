@@ -1,9 +1,4 @@
 
-### Input_checking function #########################################################################################
-# COL.BEST.RET <- "Retention Time"
-# COL.FWHM <- "Full Width at Half Maximum"
-# COL.TOTAL.AREA <- "Total Peak Area"
-# COL.PEAK.ASS <- "Peak Assymetry"
 #########################################################################################
 # here we put a selection of most column names that users use. The first element of each vector should be the best name that
 # we suggest users to use and  which our code is based on. for example "Retention Time" and "Full Width at Half Maximum" which are the first element
@@ -110,8 +105,6 @@ input.sanity.check <- function(prodata, finalfile) {
     # locate a new column named "Peak Assymetry" right after the column named "Annotation"
     prodata[,"Peak Assymetry"] <- peakAss
   }
-
-  #return(prodata)
-  return("Your data is ready to go!")
-
+  print("Your data is ready to go!")
+  return(prodata)
 }

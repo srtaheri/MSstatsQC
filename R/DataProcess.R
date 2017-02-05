@@ -35,9 +35,7 @@ DataProcess <- function(data){
 
   #processout <- rbind(processout, as.matrix(c(" "," ","MSstatsqc - dataProcess function"," "),ncol=1))
 
-  #data <- input.sanity.check(data, finalfile)
+  data <- input.sanity.check(data, finalfile)
 
-  #return(data)
-  msg <-  input.sanity.check(data, finalfile)
-  return(msg)
+  return(data)
 }

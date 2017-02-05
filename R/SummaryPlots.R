@@ -17,8 +17,7 @@ XmRSummaryPlots <- function(data, L, U) {
   if(!is.data.frame(data)){
     stop(data)
   }
-  data.metrics <- c("Retention Time", "Total Peak Area",
-                    "Full Width at Half Maximum", "Peak Assymetry", find_custom_metrics(data))
+  data.metrics <- c(find_custom_metrics(data))
   dat <- XmR.Summary.DataFrame(data,data.metrics, L, U)
   tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics)
 
@@ -73,17 +72,13 @@ XmRSummaryPlots <- function(data, L, U) {
 #' @examples
 #' CUSUMSummaryPlots()
 CUSUMSummaryPlots <- function(data, L, U) {
-<<<<<<< HEAD
   #data <- input_checking(data)
-=======
-  data <- DataProcess(data)
->>>>>>> origin/master
+
   if(!is.data.frame(data)){
     stop(data)
   }
   h <- 5
-  data.metrics <- c("Retention Time", "Total Peak Area",
-                    "Full Width at Half Maximum", "Peak Assymetry", find_custom_metrics(data))
+  data.metrics <- c(find_custom_metrics(data))
 
   dat <- CUSUM.Summary.DataFrame(data, data.metrics, L, U)
   tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics)
