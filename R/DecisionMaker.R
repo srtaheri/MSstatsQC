@@ -21,7 +21,7 @@
 
 #########################################################################################################
 DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot",selectMean = NULL,selectSD = NULL) {
-  data <- input_checking(data)
+  data <- DataProcess(data)
   if(!is.data.frame(data)){
     stop(data)
   }
