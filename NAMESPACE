@@ -2,6 +2,8 @@
 
 export(CUSUMPlots)
 export(CUSUMSummaryPlots)
+export(ChangePointEstimator)
+export(DataProcess)
 export(DecisionMaker)
 export(XmRPlots)
 export(XmRSummaryPlots)

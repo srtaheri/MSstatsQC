@@ -36,3 +36,4 @@ This function allows you to draw the heatmaps to help user test their decision i
 DecisionMaker()
 }
 \keyword{heatmap}
+

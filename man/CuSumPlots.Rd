@@ -5,7 +5,7 @@
 \title{A Cumulative Sum (CUSUM) Function}
 \usage{
 CUSUMPlots(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
-  ytitle = "CUSUM Plot", type = "mean")
+  ytitle = "CUSUM Plot - mean", type = "mean")
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -16,7 +16,7 @@ CUSUMPlots(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
 
 \item{U}{Upper bound of the guide set. Defaults to U = 5}
 
-\item{ytitle}{The y-axis title of the plot.Defaults to "CUSUM Plot". The x-axis title is by default "QCno-name of peptide"}
+\item{ytitle}{The y-axis title of the plot.Defaults to "CUSUM Plot - mean". The x-axis title is by default "QCno-name of peptide"}
 
 \item{type}{can take two values, "mean" or "dispersion". Defaults to "mean"}
 }
@@ -30,3 +30,4 @@ CUSUMPlots()
 \keyword{Sum,}
 \keyword{chart}
 \keyword{control}
+

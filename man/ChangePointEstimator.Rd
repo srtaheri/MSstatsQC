@@ -5,7 +5,8 @@
 \title{A Change Point (CP) Function}
 \usage{
 ChangePointEstimator(data, peptide, L = 1, U = 5, metric,
-  normalization = TRUE, ytitle = "Change Point Plot", type = "mean")
+  normalization = TRUE, ytitle = "Change Point Plot - mean",
+  type = "mean")
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -20,7 +21,7 @@ ChangePointEstimator(data, peptide, L = 1, U = 5, metric,
 
 \item{normalization}{TRUE if QC metric is standardized and FALSE if not standardized}
 
-\item{ytitle}{The y-axis title of the plot. The x-axis title is by default "QCno-name of peptide"}
+\item{ytitle}{The y-axis title of the plot. Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
 
 \item{type}{can take two values, "mean" or "dispersion".}
 }
@@ -33,4 +34,5 @@ ChangePointEstimator()
 \keyword{Change}
 \keyword{chart}
 \keyword{control}
-\keyword{point}
+\keyword{point,}
+

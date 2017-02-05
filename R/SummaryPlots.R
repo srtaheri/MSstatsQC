@@ -13,7 +13,7 @@
 #' @examples
 #' XmRSummaryPlots()
 XmRSummaryPlots <- function(data, L, U) {
-  data <- input_checking(data)
+  #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
   }
@@ -73,7 +73,7 @@ XmRSummaryPlots <- function(data, L, U) {
 #' @examples
 #' CUSUMSummaryPlots()
 CUSUMSummaryPlots <- function(data, L, U) {
-  data <- input_checking(data)
+  #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
   }

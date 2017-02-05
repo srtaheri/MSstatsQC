@@ -16,8 +16,8 @@
 #' @examples
 #' XmRPlots()
 #########################################################################################################################
-XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "XmR Plot", type = "mean") {
-  data <- input_checking(data)
+XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "XmR Plot - mean", type = "mean") {
+  #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
   }
@@ -31,29 +31,13 @@ XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
   y <- list(
     title = ytitle
   )
-  plot_ly(plot.data, x = QCno, y = t, type = "scatter",
-          name = "",  line = list(shape = "linear"),
-          marker=list(color="dodgerblue" , size=4 , opacity=0.5)
-          ,showlegend = FALSE
-          , text=precursor.data$Annotations
-  ) %>%
-    layout(xaxis = x,yaxis = y) %>%
-    add_trace(y = UCL, marker=list(color="red" , size=4 , opacity=0.5), mode = "lines",showlegend = FALSE,name="UCL") %>%
-    add_trace(y = LCL, marker=list(color="red" , size=4 , opacity=0.5), mode = "lines",showlegend = FALSE,name="LCL") %>%
-    add_trace(x = plot.data[t <= LCL, ]$QCno, y = plot.data[t <= LCL, ]$t
-              , mode = "markers"
-              , marker=list(color="red" , size=8 , opacity=0.5)
-              ,showlegend = FALSE,name=""
-    ) %>%
-    add_trace(x = plot.data[t >= UCL, ]$QCno, y = plot.data[t >= UCL, ]$t
-              , mode = "markers"
-              , marker=list(color="red" , size=8 , opacity=0.5)
-              ,showlegend = FALSE,name=""
-    ) %>%
-    add_trace(x = plot.data[t > LCL & t < UCL, ]$QCno, y = plot.data[t > LCL & t < UCL, ]$t
-              , mode = "markers"
-              , marker=list(color="blue" , size=8 , opacity=0.5)
-              ,showlegend = FALSE,name=""
-    )
+
+  plot_ly(plot.data, x = ~QCno, y = ~t,showlegend = FALSE) %>%
+    add_lines(y = ~LCL, color = I("red"), name = "LCL") %>%
+    add_lines(y = ~UCL, color = I("red"), name = "UCL") %>%
+    add_lines(x = ~QCno, y = ~t, color = I("blue")) %>%
+    #add_markers(color= ~InRangeOutRange, colours=c("blue","red")) %>%
+    add_trace(x = ~QCno, y = ~t, color = ~InRangeOutRange, type="scatter", mode="markers", colors = c("blue","red"), inherit=FALSE)%>%
+    layout(xaxis = x,yaxis = y)
 
 }

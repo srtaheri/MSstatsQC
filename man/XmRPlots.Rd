@@ -5,7 +5,7 @@
 \title{An Individual (X) and Moving Range (mR) Function}
 \usage{
 XmRPlots(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
-  ytitle = "XmR Plot", type = "mean")
+  ytitle = "XmR Plot - mean", type = "mean")
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -29,3 +29,4 @@ XmRPlots()
 \keyword{XmR}
 \keyword{chart}
 \keyword{control}
+
