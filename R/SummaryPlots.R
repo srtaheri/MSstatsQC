@@ -14,7 +14,8 @@
 #' XmRSummaryPlots()
 XmRSummaryPlots <- function(data, L, U) {
   #data <- input_checking(data)
-  if(!is.data.frame(data)){
+  data <- DataProcess(data)
+   if(!is.data.frame(data)){
     stop(data)
   }
   data.metrics <- c("Retention Time", "Total Peak Area",
@@ -73,11 +74,8 @@ XmRSummaryPlots <- function(data, L, U) {
 #' @examples
 #' CUSUMSummaryPlots()
 CUSUMSummaryPlots <- function(data, L, U) {
-<<<<<<< HEAD
   #data <- input_checking(data)
-=======
   data <- DataProcess(data)
->>>>>>> origin/master
   if(!is.data.frame(data)){
     stop(data)
   }
