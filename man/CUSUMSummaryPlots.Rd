@@ -22,4 +22,3 @@ CUSUMSummaryPlots()
 \keyword{CUSUM}
 \keyword{Summary}
 \keyword{plot}
-
