@@ -1,11 +1,15 @@
-#' A Cumulative Sum (CUSUM) Function
+#' A function to create cumulative sum charts for mean (CUSUMm) and cumulative sum charts for variability (CUSUMv) control charts for QC metrics
 #'
-#' This function allows you to calculate CUSUM statistics.
-#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
-#' @param peptide The name of precursor you want to draw the plot for
-#' @param L Lower bound of the giude set. Defaults to L = 1
-#' @param U Upper bound of the guide set. Defaults to U = 5
-#' @param ytitle The y-axis title of the plot.Defaults to "CUSUM Plot - mean". The x-axis title is by default "QCno-name of peptide"
+#' This function allows you to calculate CUSUMm and CUSUMv statistics and draw control charts for certain QC metrics and peptides.
+#' 
+#' @param data Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns. 
+#' It can also include "Annotations" for each observation. 
+#' @param peptide The name of precursor you want to draw the plot for.
+#' @param L Lower bound of the guide set.
+#' @param U Upper bound of the guide set.
+#' @param metric The name of the QC metric. For example it can be "BestRetentionTime" 
+#' @param normalization TRUE if data is standardized. 
+#' @param ytitle The y-axis name of the plot.It can be either "CUSUMm" or "CUSUMv".  The x-axis title is by default "QCno-name of peptide"
 #' @param type can take two values, "mean" or "dispersion". Defaults to "mean"
 #' @keywords Cumulative Sum, control chart
 #' @export
@@ -16,7 +20,7 @@
 #' CUSUMPlots()
 
 #################################################################################################
-CUSUMPlots<- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "CUSUM Plot - mean", type = "mean") {
+CUSUMPlots<- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "CUSUMm", type = "mean") {
   #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)

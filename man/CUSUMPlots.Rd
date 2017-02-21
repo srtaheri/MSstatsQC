@@ -2,26 +2,31 @@
 % Please edit documentation in R/CUSUMPlots.R
 \name{CUSUMPlots}
 \alias{CUSUMPlots}
-\title{A Cumulative Sum (CUSUM) Function}
+\title{A function to create cumulative sum charts for mean (CUSUMm) and cumulative sum charts for variability (CUSUMv) control charts for QC metrics}
 \usage{
 CUSUMPlots(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
-  ytitle = "CUSUM Plot - mean", type = "mean")
+  ytitle = "CUSUMm", type = "mean")
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
+\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns. 
+It can also include "Annotations" for each observation.}
 
-\item{peptide}{The name of precursor you want to draw the plot for}
+\item{peptide}{The name of precursor you want to draw the plot for.}
 
-\item{L}{Lower bound of the giude set. Defaults to L = 1}
+\item{L}{Lower bound of the guide set.}
 
-\item{U}{Upper bound of the guide set. Defaults to U = 5}
+\item{U}{Upper bound of the guide set.}
 
-\item{ytitle}{The y-axis title of the plot.Defaults to "CUSUM Plot - mean". The x-axis title is by default "QCno-name of peptide"}
+\item{metric}{The name of the QC metric. For example it can be "BestRetentionTime"}
+
+\item{normalization}{TRUE if data is standardized.}
+
+\item{ytitle}{The y-axis name of the plot.It can be either "CUSUMm" or "CUSUMv".  The x-axis title is by default "QCno-name of peptide"}
 
 \item{type}{can take two values, "mean" or "dispersion". Defaults to "mean"}
 }
 \description{
-This function allows you to calculate CUSUM statistics.
+This function allows you to calculate CUSUMm and CUSUMv statistics and draw control charts for certain QC metrics and peptides.
 }
 \examples{
 CUSUMPlots()

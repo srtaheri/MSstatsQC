@@ -1,12 +1,17 @@
-#' An Individual (X) and Moving Range (mR) Function
+#' A function to create individual (X) and moving range (mR) control charts for QC metrics
 #'
-#' This function allows you to calculate XmR statistics for a step change.
-#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
-#' @param peptide The name of precursor you want to draw the plot for
-#' @param L Lower bound of the giude set
-#' @param U Upper bound of the guide set
-#' @param ytitle The y-axis title of the plot. The x-axis title is by default "QCno-name of peptide"
-#' @param type can take two values, "mean" or "dispersion".
+#' This function allows you to calculate X and mR statistics and draw control charts for certain QC metrics and peptides.
+#'
+#' @param data Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns. 
+#' It can also include "Annotations" for each observation. 
+#' @param peptide The name of precursor you want to draw the plot for.
+#' @param L Lower bound of the guide set.
+#' @param U Upper bound of the guide set.
+#' @param metric The name of the QC metric. For example it can be "BestRetentionTime" 
+#' @param normalization TRUE if data is standardized. 
+#' @param ytitle The y-axis name of the plot. It can be either "individual observations" or "moving ranges". 
+#' The x-axis title is by default "QCno-name of peptide".
+#' @param type It can take two values, "mean" or "dispersion".
 #' @keywords XmR
 #'          control chart
 #' @export
@@ -15,8 +20,8 @@
 #' @import RecordLinkage
 #' @examples
 #' XmRPlots()
-#########################################################################################################################
-XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "XmR Plot - mean", type = "mean") {
+################################################################################################################
+XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "Individual Observations", type = "mean") {
   #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
