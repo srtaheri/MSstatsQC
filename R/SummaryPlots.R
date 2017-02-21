@@ -14,7 +14,7 @@
 #' XmRSummaryPlots()
 XmRSummaryPlots <- function(data, L, U) {
   #data <- input_checking(data)
-  data <- DataProcess(data)
+  #data <- DataProcess(data)
    if(!is.data.frame(data)){
     stop(data)
   }
@@ -75,7 +75,7 @@ XmRSummaryPlots <- function(data, L, U) {
 #' CUSUMSummaryPlots()
 CUSUMSummaryPlots <- function(data, L, U) {
   #data <- input_checking(data)
-  data <- DataProcess(data)
+  #data <- DataProcess(data)
   if(!is.data.frame(data)){
     stop(data)
   }
