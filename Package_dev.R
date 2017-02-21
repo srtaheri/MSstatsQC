@@ -16,7 +16,7 @@ install("MSstatsQC", dep=TRUE)
 library(MSstatsQC)
 ##############################################################
 ## Import datasets
-
+setwd("/Users/ed/GitHub/msstats-qc/datasets")
 S9Site54 <- read.csv('Study9.1-Site54.csv') 
 setwd("/Users/ed/GitHub/MSstatsQC")
 save(S9Site54, file="data/S9Site54.RData")
