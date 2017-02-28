@@ -6,7 +6,7 @@
 \usage{
 DecisionMaker(data, method, peptideThresholdRed = 0.7,
   peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
-  title = "heatmap plot", selectMean = NULL, selectSD = NULL)
+  title = "heatmap plot")
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
