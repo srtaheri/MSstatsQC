@@ -22,3 +22,4 @@ XmRSummaryPlots()
 \keyword{Summary}
 \keyword{XmR}
 \keyword{plot}
+

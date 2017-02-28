@@ -13,3 +13,4 @@ This function allows you to draw the heatmaps to help user test their decision i
 RunShiny()
 }
 \keyword{shiny}
+

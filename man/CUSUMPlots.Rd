@@ -35,3 +35,4 @@ CUSUMPlots()
 \keyword{Sum,}
 \keyword{chart}
 \keyword{control}
+

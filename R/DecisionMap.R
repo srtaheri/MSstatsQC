@@ -9,8 +9,6 @@
 #' @param U Upper bound of the guide set. Defaults to 5
 #' @param type can take two values, "mean" or "dispersion". Defaults to "mean"
 #' @param title the title of the plot. Defaults to "heatmap plot"
-#' @param selectMean If you want to choose mean yourself and do not use the guide set. Defaults to NULL
-#' @param selectSD If you want to choose standard deviation yourself and do not want to use the guide set. Defaults to NULL
 #' @keywords heatmap
 #' @export
 #' @import ggplot2
@@ -23,7 +21,7 @@
 
 DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot") {
 
-  data <- DataProcess(data)
+  #data <- DataProcess(data)
   if(!is.data.frame(data)){
     stop(data)
   }

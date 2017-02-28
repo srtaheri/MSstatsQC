@@ -35,3 +35,4 @@ ChangePointEstimator()
 \keyword{chart}
 \keyword{control}
 \keyword{point,}
+

@@ -35,3 +35,4 @@ XmRPlots()
 \keyword{XmR}
 \keyword{chart}
 \keyword{control}
+
