@@ -73,12 +73,7 @@ XmRSummaryPlots <- function(data, L, U) {
 #' @examples
 #' CUSUMSummaryPlots()
 CUSUMSummaryPlots <- function(data, L, U) {
-  #data <- input_checking(data)
-<<<<<<< HEAD
 
-=======
-  #data <- DataProcess(data)
->>>>>>> origin/master
   if(!is.data.frame(data)){
     stop(data)
   }

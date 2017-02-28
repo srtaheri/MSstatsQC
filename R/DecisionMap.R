@@ -20,16 +20,14 @@
 #' DecisionMap()
 
 #########################################################################################################
-<<<<<<< HEAD:R/DecisionMaker.R
+
 DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot") {
-=======
-DecisionMap<- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot",selectMean = NULL,selectSD = NULL) {
->>>>>>> origin/master:R/DecisionMap.R
+
   data <- DataProcess(data)
   if(!is.data.frame(data)){
     stop(data)
   }
-#,selectMean = NULL,selectSD = NULL
+
   data.metrics <- c(find_custom_metrics(data))
   remove <- c("MinStartTime","MaxEndTime")
   data.metrics <- data.metrics[!data.metrics %in% remove]
