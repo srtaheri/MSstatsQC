@@ -17,10 +17,14 @@
 #' @import RecordLinkage
 #' @import grid
 #' @examples
-#' DecisionMaker()
+#' DecisionMap()
 
 #########################################################################################################
+<<<<<<< HEAD:R/DecisionMaker.R
 DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot") {
+=======
+DecisionMap<- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean", title = "heatmap plot",selectMean = NULL,selectSD = NULL) {
+>>>>>>> origin/master:R/DecisionMap.R
   data <- DataProcess(data)
   if(!is.data.frame(data)){
     stop(data)
@@ -52,7 +56,7 @@ DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThreshol
 
   p <- p + labs(x=NULL, y=NULL)
   p<-p + scale_fill_manual(values = color_palette, name = "")
-  p <- p +  theme(axis.text=element_text(size=12))
+  p <- p +  theme(axis.text=element_text(size=12),legend.title = element_blank())
 
   p
 }

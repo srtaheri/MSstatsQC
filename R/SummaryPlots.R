@@ -14,7 +14,8 @@
 #' XmRSummaryPlots()
 XmRSummaryPlots <- function(data, L, U) {
   #data <- input_checking(data)
-  if(!is.data.frame(data)){
+  #data <- DataProcess(data)
+   if(!is.data.frame(data)){
     stop(data)
   }
   data.metrics <- c(find_custom_metrics(data))
@@ -73,7 +74,11 @@ XmRSummaryPlots <- function(data, L, U) {
 #' CUSUMSummaryPlots()
 CUSUMSummaryPlots <- function(data, L, U) {
   #data <- input_checking(data)
+<<<<<<< HEAD
 
+=======
+  #data <- DataProcess(data)
+>>>>>>> origin/master
   if(!is.data.frame(data)){
     stop(data)
   }

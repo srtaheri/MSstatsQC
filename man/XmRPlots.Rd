@@ -2,26 +2,32 @@
 % Please edit documentation in R/XmRPlots.R
 \name{XmRPlots}
 \alias{XmRPlots}
-\title{An Individual (X) and Moving Range (mR) Function}
+\title{A function to create individual (X) and moving range (mR) control charts for QC metrics}
 \usage{
 XmRPlots(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
-  ytitle = "XmR Plot - mean", type = "mean")
+  ytitle = "Individual Observations", type = "mean")
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
+\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns. 
+It can also include "Annotations" for each observation.}
 
-\item{peptide}{The name of precursor you want to draw the plot for}
+\item{peptide}{The name of precursor you want to draw the plot for.}
 
-\item{L}{Lower bound of the giude set}
+\item{L}{Lower bound of the guide set.}
 
-\item{U}{Upper bound of the guide set}
+\item{U}{Upper bound of the guide set.}
 
-\item{ytitle}{The y-axis title of the plot. The x-axis title is by default "QCno-name of peptide"}
+\item{metric}{The name of the QC metric. For example it can be "BestRetentionTime"}
 
-\item{type}{can take two values, "mean" or "dispersion".}
+\item{normalization}{TRUE if data is standardized.}
+
+\item{ytitle}{The y-axis name of the plot. It can be either "individual observations" or "moving ranges". 
+The x-axis title is by default "QCno-name of peptide".}
+
+\item{type}{It can take two values, "mean" or "dispersion".}
 }
 \description{
-This function allows you to calculate XmR statistics for a step change.
+This function allows you to calculate X and mR statistics and draw control charts for certain QC metrics and peptides.
 }
 \examples{
 XmRPlots()
@@ -29,4 +35,3 @@ XmRPlots()
 \keyword{XmR}
 \keyword{chart}
 \keyword{control}
-
