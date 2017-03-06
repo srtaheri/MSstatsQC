@@ -24,8 +24,6 @@ ChangePointEstimator <- function(data, peptide, L = 1, U = 5, metric, normalizat
   precursor.data <- data[data$Precursor==peptide,]
   ## Create variables
   plot.data <- CP.data.prepare(data, metricData, type)
-  y.max=max(plot.data$Et) # y axis upper limit
-  y.min=0 # y axis lower limit
 
   x <- list(
     title = paste("QCno - ", peptide)
@@ -36,7 +34,7 @@ ChangePointEstimator <- function(data, peptide, L = 1, U = 5, metric, normalizat
 
   plot_ly(plot.data, x = ~QCno, y = ~Et,showlegend = FALSE)%>% #,text=precursor.data$Annotations)
     add_lines(x = ~tho.hat, color = I("red"))%>%
-    add_lines(x = ~QCno, y = ~Et, color = I("blue"))%>%
-    add_markers(x = ~QCno, y = ~Et, color = I("purple"))%>%
+    add_lines(x = ~QCno, y = ~Et, color = I("cornflowerblue"))%>%
+    add_markers(x = ~QCno, y = ~Et, color = I("blue"))%>%
     layout(xaxis = x,yaxis = y)
 }

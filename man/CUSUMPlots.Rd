@@ -8,7 +8,7 @@ CUSUMPlots(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
   ytitle = "CUSUMm", type = "mean")
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns. 
+\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns.
 It can also include "Annotations" for each observation.}
 
 \item{peptide}{The name of precursor you want to draw the plot for.}

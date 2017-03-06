@@ -8,7 +8,7 @@ XmRPlots(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
   ytitle = "Individual Observations", type = "mean")
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns. 
+\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns.
 It can also include "Annotations" for each observation.}
 
 \item{peptide}{The name of precursor you want to draw the plot for.}
@@ -21,7 +21,7 @@ It can also include "Annotations" for each observation.}
 
 \item{normalization}{TRUE if data is standardized.}
 
-\item{ytitle}{The y-axis name of the plot. It can be either "individual observations" or "moving ranges". 
+\item{ytitle}{The y-axis name of the plot. It can be either "individual observations" or "moving ranges".
 The x-axis title is by default "QCno-name of peptide".}
 
 \item{type}{It can take two values, "mean" or "dispersion".}
