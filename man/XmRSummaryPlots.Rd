@@ -4,14 +4,14 @@
 \alias{XmRSummaryPlots}
 \title{A river and a radar plot to summarize results from XmR plots}
 \usage{
-XmRSummaryPlots(data, L, U)
+XmRSummaryPlots(data, L = 1, U = 5)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
 
-\item{L}{Lower bound of the giude set}
+\item{L}{Lower bound of the giude set. Default is 1.}
 
-\item{U}{Upper bound of the guide set}
+\item{U}{Upper bound of the guide set. Default is 5.}
 }
 \description{
 This function allows you to draw the XmR summary plot.

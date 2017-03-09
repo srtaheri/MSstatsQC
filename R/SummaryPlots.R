@@ -2,8 +2,8 @@
 #'
 #' This function allows you to draw the XmR summary plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
-#' @param L Lower bound of the giude set
-#' @param U Upper bound of the guide set
+#' @param L Lower bound of the giude set. Default is 1.
+#' @param U Upper bound of the guide set. Default is 5.
 #' @keywords XmR
 #'           Summary plot
 #' @export
@@ -12,9 +12,8 @@
 #' @import grid
 #' @examples
 #' XmRSummaryPlots()
-XmRSummaryPlots <- function(data, L, U) {
-  #data <- input_checking(data)
-  #data <- DataProcess(data)
+XmRSummaryPlots <- function(data, L=1, U=5) {
+
    if(!is.data.frame(data)){
     stop(data)
   }
@@ -63,8 +62,8 @@ XmRSummaryPlots <- function(data, L, U) {
 #'
 #' This function allows you to draw the CUSUM summary plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
-#' @param L Lower bound of the giude set
-#' @param U Upper bound of the guide set
+#' @param L Lower bound of the giude set. Default is 1.
+#' @param U Upper bound of the guide set. Default is 5.
 #' @keywords CUSUM
 #'           Summary plot
 #' @export
@@ -72,7 +71,7 @@ XmRSummaryPlots <- function(data, L, U) {
 #' @import RecordLinkage
 #' @examples
 #' CUSUMSummaryPlots()
-CUSUMSummaryPlots <- function(data, L, U) {
+CUSUMSummaryPlots <- function(data, L = 1, U = 5) {
 
   if(!is.data.frame(data)){
     stop(data)
