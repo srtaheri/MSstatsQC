@@ -5,7 +5,8 @@
 \title{A function to create individual (X) and moving range (mR) control charts for QC metrics}
 \usage{
 XmRPlots(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
-  ytitle = "Individual Observations", type = "mean")
+  ytitle = "Individual Observations", type = "mean", selectMean = NULL,
+  selectSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns.
@@ -25,6 +26,10 @@ It can also include "Annotations" for each observation.}
 The x-axis title is by default "QCno-name of peptide".}
 
 \item{type}{It can take two values, "mean" or "dispersion".}
+
+\item{selectMean}{It is the mean of the metric. If you don't know the mean, select NULL}
+
+\item{selectSD}{It is the standard deviation of the metric. If you don't know the mean, select NULL}
 }
 \description{
 This function allows you to calculate X and mR statistics and draw control charts for certain QC metrics and peptides.

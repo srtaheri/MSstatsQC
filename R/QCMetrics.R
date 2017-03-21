@@ -6,26 +6,26 @@
 #         "metric" is one of these metrics: COL.BEST.RET,COL.FWHM, COL.TOTAL.AREA,COL.PEAK.ASS or a metric that user defines in his data set
 #         "normalization" is either TRUE or FALSE
 #Description of function : it gets the metric column only for the precursor chosen and either return the column as it is or normalize it and then return it
-getMetricData <- function(prodata, precursorSelection, L, U, metric, normalization) {
-  precursor.data<-prodata[prodata$Precursor==precursorSelection,] #"Precursor" is one of the columns in data that shows the name of peptides. This gets only the part of data related to the selected peptide
-  metricData <- 0
-
-  if(is.null(metric)){
-    return(NULL)
-  }
-
-  metricData = precursor.data[,metric]
-  if(normalization == TRUE) {
-    mu=mean(metricData[L:U]) # in-control process mean
-    sd=sd(metricData[L:U]) # in-control process variance
-    if(sd == 0) {sd <- 0.0001}
-    metricData=scale(metricData[1:length(metricData)],mu,sd) # transformation for N(0,1) )
-    return(metricData)
-  } else if(normalization == FALSE){
-    return(metricData)
-  }
-
-}
+# getMetricData <- function(prodata, precursorSelection, L, U, metric, normalization) {
+#   precursor.data<-prodata[prodata$Precursor==precursorSelection,] #"Precursor" is one of the columns in data that shows the name of peptides. This gets only the part of data related to the selected peptide
+#   metricData <- 0
+#
+#   if(is.null(metric)){
+#     return(NULL)
+#   }
+#
+#   metricData = precursor.data[,metric]
+#   if(normalization == TRUE) {
+#     mu=mean(metricData[L:U]) # in-control process mean
+#     sd=sd(metricData[L:U]) # in-control process variance
+#     if(sd == 0) {sd <- 0.0001}
+#     metricData=scale(metricData[1:length(metricData)],mu,sd) # transformation for N(0,1) )
+#     return(metricData)
+#   } else if(normalization == FALSE){
+#     return(metricData)
+#   }
+#
+# }
 #########################################################################################################
 find_custom_metrics <- function(prodata) {
 
@@ -166,27 +166,46 @@ get_CP_tho.hat <- function(prodata, L, U, data.metrics) {
 #        "L" and "U" are lower and upper bound of guide set that user choose in Data Import tab.
 #        "type" is either "mean" or "dispersion". one is "Individual Value" plot and other "Moving Range" plot
 #DESCRIPTION : returns a data frame for XmR that contains all the information needed to plot XmR
-XmR.data.prepare <- function(prodata, metricData, L,U, type) {
+XmR.data.prepare <- function(prodata, metricData, L,U, type, selectMean,selectSD) {
   t <- numeric(length(metricData)-1)
   UCL <- 0
   LCL <- 0
   InRangeOutRange <- rep(0,length(metricData))
+
   for(i in 2:length(metricData)) {
     t[i]=abs(metricData[i]-metricData[i-1]) # Compute moving range of metricData
   }
 
   QCno=1:length(metricData)
+
   if(type == "mean") {
+    if(is.null(selectMean) && is.null(selectSD)) {
       UCL=mean(metricData[L:U])+2.66*sd(t[L:U])
       LCL=mean(metricData[L:U])-2.66*sd(t[L:U])
-      t <- metricData
-
-  } else if(type == "dispersion") {
+    }else {
+      UCL = selectMean + 2.66 * selectSD
+      LCL = selectMean - 2.66 * selectSD
+    }
+    t <- metricData
+  }else if(type == "dispersion") {
     ## Calculate MR chart statistics and limits
-
+    if(is.null(selectMean) && is.null(selectSD)) {
       UCL=3.267*sd(t[1:L-U])
-      LCL=0
+    }else{
+      UCL = 3.267 * selectSD
+    }
+    LCL=0
   }
+  # if(type == "mean") {
+  #     UCL=mean(metricData[L:U])+2.66*sd(t[L:U])
+  #     LCL=mean(metricData[L:U])-2.66*sd(t[L:U])
+  #     t <- metricData
+  #
+  # } else if(type == "dispersion") {
+    ## Calculate MR chart statistics and limits
+  #     UCL=3.267*sd(t[1:L-U])
+  #     LCL=0
+  # }
 
   for(i in 1:length(metricData)) {
     if(t[i] > LCL && t[i] < UCL)

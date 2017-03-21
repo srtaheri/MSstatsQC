@@ -16,11 +16,12 @@
 #' @import RecordLinkage
 #' @examples
 #' ChangePointEstimator()
-ChangePointEstimator <- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,  ytitle = "Change Point Plot - mean", type = "mean") {
+ChangePointEstimator <- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
+                                 ytitle = "Change Point Plot - mean", type = "mean", selectMean = NULL, selectSD = NULL) {
   if(!is.data.frame(data)){
     stop(data)
   }
-  metricData <- getMetricData(data, peptide, L, U, metric, normalization)
+  metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
   precursor.data <- data[data$Precursor==peptide,]
   ## Create variables
   plot.data <- CP.data.prepare(data, metricData, type)

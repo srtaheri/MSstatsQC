@@ -12,6 +12,8 @@
 #' @param ytitle The y-axis name of the plot. It can be either "individual observations" or "moving ranges".
 #' The x-axis title is by default "QCno-name of peptide".
 #' @param type It can take two values, "mean" or "dispersion".
+#' @param selectMean It is the mean of the metric. If you don't know the mean, select NULL
+#' @param selectSD It is the standard deviation of the metric. If you don't know the mean, select NULL
 #' @keywords XmR
 #'          control chart
 #' @export
@@ -21,14 +23,15 @@
 #' @examples
 #' XmRPlots()
 ################################################################################################################
-XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,  ytitle = "Individual Observations", type = "mean") {
+XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
+                     ytitle = "Individual Observations", type = "mean",selectMean = NULL,selectSD = NULL) {
   #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)
   }
-  metricData <- getMetricData(data, peptide, L, U, metric, normalization)
+  metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
   precursor.data <- data[data$Precursor==peptide,]
-  plot.data <- XmR.data.prepare(data, metricData, L, U, type)
+  plot.data <- XmR.data.prepare(data, metricData, L, U, type,selectMean,selectSD)
 
   pal <- c("blue","red")
   pal <- setNames(pal,c("InRange","OutRange"))

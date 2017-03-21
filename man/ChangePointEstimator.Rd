@@ -6,7 +6,7 @@
 \usage{
 ChangePointEstimator(data, peptide, L = 1, U = 5, metric,
   normalization = TRUE, ytitle = "Change Point Plot - mean",
-  type = "mean")
+  type = "mean", selectMean = NULL, selectSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
