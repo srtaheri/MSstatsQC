@@ -9,6 +9,8 @@
 #' @param normalization TRUE if QC metric is standardized and FALSE if not standardized
 #' @param ytitle The y-axis title of the plot. Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"
 #' @param type can take two values, "mean" or "dispersion".
+#' @param selectMean The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.
+#' @param selectSD The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.
 #' @keywords Change point, control chart
 #' @export
 #' @import dplyr

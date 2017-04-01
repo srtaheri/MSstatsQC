@@ -6,7 +6,7 @@
 \usage{
 DecisionMaker(data, method, peptideThresholdRed = 0.7,
   peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
-  title = "heatmap plot")
+  title = "heatmap plot", listMean = NULL, listSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -24,6 +24,10 @@ DecisionMaker(data, method, peptideThresholdRed = 0.7,
 \item{type}{can take two values, "mean" or "dispersion". Defaults to "mean"}
 
 \item{title}{the title of the plot. Defaults to "heatmap plot"}
+
+\item{listMean}{List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
+
+\item{listSD}{List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
 }
 \description{
 This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.

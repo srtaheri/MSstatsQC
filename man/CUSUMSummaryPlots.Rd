@@ -2,9 +2,9 @@
 % Please edit documentation in R/SummaryPlots.R
 \name{CUSUMSummaryPlots}
 \alias{CUSUMSummaryPlots}
-\title{A river and a radar plot to summarize results from CUSUMm and CUSUMv plots}
+\title{A river plot to summarize results from CUSUMm and CUSUMv plots}
 \usage{
-CUSUMSummaryPlots(data, L = 1, U = 5)
+CUSUMSummaryPlots(data, L = 1, U = 5, listMean = NULL, listSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -12,6 +12,10 @@ CUSUMSummaryPlots(data, L = 1, U = 5)
 \item{L}{Lower bound of the giude set. Default is 1.}
 
 \item{U}{Upper bound of the guide set. Default is 5.}
+
+\item{listMean}{List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
+
+\item{listSD}{List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
 }
 \description{
 This function allows you to draw the CUSUM summary plot.

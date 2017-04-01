@@ -24,6 +24,10 @@ ChangePointEstimator(data, peptide, L = 1, U = 5, metric,
 \item{ytitle}{The y-axis title of the plot. Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
 
 \item{type}{can take two values, "mean" or "dispersion".}
+
+\item{selectMean}{The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+
+\item{selectSD}{The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
 }
 \description{
 This function allows you to calculate change point statistics for a step change in mean or variability.

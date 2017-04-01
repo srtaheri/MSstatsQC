@@ -25,9 +25,9 @@ It can also include "Annotations" for each observation.}
 
 \item{type}{can take two values, "mean" or "dispersion". Defaults to "mean"}
 
-\item{selectMean}{It is the mean of the metric. If you don't know the mean, select NULL}
+\item{selectMean}{The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
 
-\item{selectSD}{It is the standard deviation of the metric. If you don't know the mean, select NULL}
+\item{selectSD}{The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
 }
 \description{
 This function allows you to calculate CUSUMm and CUSUMv statistics and draw control charts for certain QC metrics and peptides.

@@ -1,9 +1,11 @@
-#' A river and a radar plot to summarize results from XmR plots
+#' A river plot to summarize results from XmR plots
 #'
 #' This function allows you to draw the XmR summary plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param L Lower bound of the giude set. Default is 1.
 #' @param U Upper bound of the guide set. Default is 5.
+#' @param listMean List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
+#' @param listSD List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
 #' @keywords XmR
 #'           Summary plot
 #' @export
@@ -12,14 +14,16 @@
 #' @import grid
 #' @examples
 #' XmRSummaryPlots()
-XmRSummaryPlots <- function(data, L=1, U=5) {
+XmRSummaryPlots <- function(data, L=1, U=5, listMean=NULL, listSD=NULL) {
 
    if(!is.data.frame(data)){
     stop(data)
   }
   data.metrics <- c(find_custom_metrics(data))
-  dat <- XmR.Summary.DataFrame(data,data.metrics, L, U)
-  tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics)
+  remove <- c("MinStartTime","MaxEndTime")
+  data.metrics <- data.metrics[!data.metrics %in% remove]
+  dat <- XmR.Summary.DataFrame(data,data.metrics, L, U, listMean, listSD)
+  tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics, listMean, listSD)
 
   gg <- ggplot(dat)
   gg <- gg + geom_hline(yintercept=0, alpha=0.5)
@@ -58,12 +62,14 @@ XmRSummaryPlots <- function(data, L=1, U=5) {
 }
 
 #################################################################################################
-#' A river and a radar plot to summarize results from CUSUMm and CUSUMv plots
+#' A river plot to summarize results from CUSUMm and CUSUMv plots
 #'
 #' This function allows you to draw the CUSUM summary plot.
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param L Lower bound of the giude set. Default is 1.
 #' @param U Upper bound of the guide set. Default is 5.
+#' @param listMean List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
+#' @param listSD List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
 #' @keywords CUSUM
 #'           Summary plot
 #' @export
@@ -71,16 +77,18 @@ XmRSummaryPlots <- function(data, L=1, U=5) {
 #' @import RecordLinkage
 #' @examples
 #' CUSUMSummaryPlots()
-CUSUMSummaryPlots <- function(data, L = 1, U = 5) {
+CUSUMSummaryPlots <- function(data, L = 1, U = 5, listMean=NULL, listSD=NULL) {
 
   if(!is.data.frame(data)){
     stop(data)
   }
   h <- 5
   data.metrics <- c(find_custom_metrics(data))
+  remove <- c("MinStartTime","MaxEndTime")
+  data.metrics <- data.metrics[!data.metrics %in% remove]
 
-  dat <- CUSUM.Summary.DataFrame(data, data.metrics, L, U)
-  tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics)
+  dat <- CUSUM.Summary.DataFrame(data, data.metrics, L, U,listMean,listSD)
+  tho.hat.df <- get_CP_tho.hat(data, L, U, data.metrics,listMean,listSD)
 
   gg <- ggplot(dat)
   gg <- gg + geom_hline(yintercept=0, alpha=0.5)

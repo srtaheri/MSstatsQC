@@ -12,8 +12,8 @@
 #' @param ytitle The y-axis name of the plot. It can be either "individual observations" or "moving ranges".
 #' The x-axis title is by default "QCno-name of peptide".
 #' @param type It can take two values, "mean" or "dispersion".
-#' @param selectMean It is the mean of the metric. If you don't know the mean, select NULL
-#' @param selectSD It is the standard deviation of the metric. If you don't know the mean, select NULL
+#' @param selectMean The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.
+#' @param selectSD The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.
 #' @keywords XmR
 #'          control chart
 #' @export

@@ -11,8 +11,8 @@
 #' @param normalization TRUE if data is standardized.
 #' @param ytitle The y-axis name of the plot.It can be either "CUSUMm" or "CUSUMv".  The x-axis title is by default "QCno-name of peptide"
 #' @param type can take two values, "mean" or "dispersion". Defaults to "mean"
-#' @param selectMean It is the mean of the metric. If you don't know the mean, select NULL
-#' @param selectSD It is the standard deviation of the metric. If you don't know the mean, select NULL
+#' @param selectMean The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.
+#' @param selectSD The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.
 #' @keywords Cumulative Sum, control chart
 #' @export
 #' @import dplyr
@@ -30,7 +30,7 @@ CUSUMPlots<- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
   }
   CUSUM.outrange.thld <- 5
   metricData <- getMetricData(data, peptide, L, U, metric, normalization, selectMean, selectSD)
-  plot.data <- CUSUM.data.prepare(data, metricData, peptide, L, U, type)
+  plot.data <- CUSUM.data.prepare(data, metricData, peptide, type)
   plot.data1 <- data.frame(
     QCno = rep(plot.data$QCno,2),
     CUSUMValue = c(plot.data$CUSUM.poz, plot.data$CUSUM.neg),
