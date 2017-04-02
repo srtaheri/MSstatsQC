@@ -74,7 +74,10 @@ input.sanity.check <- function(prodata, processout, finalfile) {
   # check that the data includes all the requiered columns and if not tell user what column is missing
   # required_column_names <- c("Precursor","Retention Time","Full Width at Half Maximum","Total Peak Area","MinStartTime"
   #                            ,"MaxEndTime")
-  required_column_names <- c("Precursor","Annotation")
+  required_column_names <- c("Precursor","Annotations")
+  if(!("Annotations" %in% colnames(prodata))) {
+    prodata[,"Annotations"] <- NA
+  }
   provided_column_names <- colnames(prodata)
   # if(!all(required_column_names %in% provided_column_names)) {
   #   missedInput <- which(!(required_column_names %in% provided_column_names))
@@ -85,7 +88,7 @@ input.sanity.check <- function(prodata, processout, finalfile) {
 
   # check that all columns other than Precursor and Acquired Time and Annotations are numeric.
   AfterannoColNum <- (which(colnames(prodata)=="Annotations")) + 1
-  
+
   for(i in  AfterannoColNum:ncol(prodata)) {
     if(is.numeric(prodata[,i]) == FALSE) {
       error_message <- paste(error_message, "All the values of", colnames(prodata)[i], "should be numeric and positive.\n\n")
@@ -132,12 +135,10 @@ input.sanity.check <- function(prodata, processout, finalfile) {
   # prodata$MaxEndTime <- as.numeric(gsub(",","",prodata$MaxEndTime))
   # prodata$MinStartTime <- as.numeric(gsub(",","",prodata$MinStartTime))
 
-  
+
   # some data migh have annotation column, some might not have. If it doesn't, we create an empty "Annotation" column at the very end column of the data
-  if(!("Annotations" %in% colnames(prodata))) {
-    prodata[,"Annotations"] <- NA
-  }
-  
+
+
   # Define peak assymetry
   if("MinStartTime" %in% provided_column_names && "MaxEndTime" %in% provided_column_names) {
     peakAss <- 2*prodata$MinStartTime/(prodata$MaxEndTime+prodata$MinStartTime)
@@ -154,28 +155,6 @@ input.sanity.check <- function(prodata, processout, finalfile) {
 
 ### Input_checking function #########################################################################################
 input_checking <- function(data){
-
-  ## save process output in each step #### creating a log file ########### from Meena's code
-  allfiles <- list.files()
-
-  num <- 0
-  filenaming <- "./log/msstatsqc"
-  finalfile <- "msstatsqc.log"
-
-  while(is.element(finalfile,allfiles)) {
-    num <- num+1
-    finalfile <- paste(paste(filenaming,num,sep="-"),".log",sep="")
-  }
-
-  session <- sessionInfo()
-  sink("./log/sessionInfo.txt")
-  print(session)
-  sink()
-
-  processout <- as.matrix(read.table("./log/sessionInfo.txt", header=T, sep="\t"))
-  write.table(processout, file=finalfile, row.names=FALSE)
-
-  processout <- rbind(processout, as.matrix(c(" "," ","MSstatsqc - dataProcess function"," "),ncol=1))
 
   data <- input.sanity.check(data, processout, finalfile)
 

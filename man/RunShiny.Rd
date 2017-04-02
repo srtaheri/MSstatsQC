@@ -4,7 +4,7 @@
 \alias{RunShiny}
 \title{Shiny connection for example datasets}
 \usage{
-RunShiny()
+RunShiny(data)
 }
 \description{
 This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.

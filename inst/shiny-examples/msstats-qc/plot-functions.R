@@ -1,7 +1,9 @@
-source("QCMetrics.R")
-#source("http://pcwww.liv.ac.uk/~william/Geodemographic%20Classifiability/func%20CreateRadialPlot.r")
-source('ggradar.R')
-source('helper-functions.R')
+packageBaseDir <- system.file(package = "MSstatsQC")
+appDir <- paste0(packageBaseDir,"/shiny-examples/msstats-qc")
+source(paste0(appDir,"/QCMetrics.R"))
+source(paste0(appDir,"/ggradar.R"))
+source(paste0(appDir,"/helper-functions.R"))
+
 library(dplyr)
 library(ggplot2)
 library(scales)
@@ -25,14 +27,41 @@ render.QC.chart <- function(prodata, precursorSelection, L, U, metric, plot.meth
   validate(
     need(!is.null(prodata), "Please upload your data")
   )
-  precursors <- levels(reorder(prodata$Precursor,prodata[,COL.BEST.RET]))
+  precursors <- levels(prodata$Precursor)
   plots <- list()
-
+  annot_list <- list()
   if(precursorSelection == "all peptides") {
     results <- lapply(c(1:nlevels(prodata$Precursor)), function(j) {
       metricData <- getMetricData(prodata, precursors[j], L, U, metric = metric, normalization = normalization,selectMean,selectSD, guidset_selected)
       plots[[2*j-1]] <<- do.plot(prodata, metricData, precursors[j],L,U, plot.method, y.title1, type = 1,selectMean,selectSD, guidset_selected)
       plots[[2*j]] <<- do.plot(prodata, metricData, precursors[j],L,U, plot.method, y.title2, type = 2,selectMean,selectSD, guidset_selected)
+      if(j==1) {
+        plots[[2*j-1]] <<- plots[[2*j-1]] %>% layout(annotations = list(
+          list(x = 0.5 , y = 1.05, text = "Mean", showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.38 , y = -0.2, text = precursors[j], showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.3, y = -0.2, text = "QCno - ", showarrow = F, xref = 'paper',yref='paper')
+          #,list(x = -0.12, y = 1, text = "YLABEL", showarrow = F, xref = 'paper',yref='paper')
+        ))
+        plots[[2*j]] <<- plots[[2*j]] %>%
+          layout(
+            annotations = list(
+              list(x = 0.5 , y = 1.05, text = "Dispersion", showarrow = F, xref='paper', yref='paper'),
+              list(x = 0.65 , y = -0.2, text = precursors[j], showarrow = F, xref='paper', yref='paper'),
+              list(x = 0.5, y = -0.2, text = "QCno - ", showarrow = F, xref = 'paper',yref='paper')
+            ))
+      } else {
+        plots[[2*j-1]] <<- plots[[2*j-1]] %>% layout(annotations = list(
+          list(x = 0.38 , y = -0.2, text = precursors[j], showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.3, y = -0.2, text = "QCno - ", showarrow = F, xref = 'paper',yref='paper')
+          #,list(x = -0.13, y = 1, text = "YLABEL", showarrow = F, xref = 'paper',yref='paper')
+        ))
+        plots[[2*j]] <<- plots[[2*j]] %>%
+          layout(
+            annotations = list(
+              list(x = 0.64 , y = -0.2, text = precursors[j], showarrow = F, xref='paper', yref='paper'),
+              list(x = 0.5 , y = -0.2, text = "QCno - ", showarrow = F, xref='paper', yref='paper')
+            ))
+      }
     })
 
     do.call(subplot,c(plots,nrows=nlevels(prodata$Precursor))) %>%
@@ -41,12 +70,26 @@ render.QC.chart <- function(prodata, precursorSelection, L, U, metric, plot.meth
 
   else {
     metricData <- getMetricData(prodata, precursorSelection, L, U, metric = metric, normalization,selectMean,selectSD, guidset_selected)
-    plot1 <- do.plot(prodata, metricData, precursorSelection,L,U, plot.method,  y.title1, type = 1,selectMean,selectSD, guidset_selected)
-    plot2 <- do.plot(prodata, metricData, precursorSelection,L,U, plot.method,  y.title2, type = 2,selectMean,selectSD, guidset_selected)
+    plot1 <- do.plot(prodata, metricData, precursorSelection,L,U, plot.method,  y.title1, type = 1,selectMean,selectSD, guidset_selected) %>%
+      layout(
+        annotations = list(
+          list(x = 0.2 , y = 1.05, text = "Mean", showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.45 , y = -0.09, text = precursorSelection, showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.3 , y = -0.09, text = "QCno - ", showarrow = F, xref='paper', yref='paper')
+          #,list(x = -0.13 , y = 1, text = "YLABEL", showarrow = F, xref='paper', yref='paper')
+        )
+      )
+    plot2 <- do.plot(prodata, metricData, precursorSelection,L,U, plot.method,  y.title2, type = 2,selectMean,selectSD, guidset_selected) %>%
+      layout(
+        annotations = list(
+          list(x = 0.8 , y = 1.05, text = "Dispersion", showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.8 , y = -0.09, text = precursorSelection, showarrow = F, xref='paper', yref='paper'),
+          list(x = 0.5 , y = -0.09, text = "QCno - ", showarrow = F, xref='paper', yref='paper')
+
+        )
+      )
 
     subplot(plot1,plot2)
-    #plot1
-  
   }
 }
 #################################################################################################################
@@ -60,7 +103,7 @@ render.QC.chart <- function(prodata, precursorSelection, L, U, metric, plot.meth
 #DESCRIPTION : draw one plot (which is either Individual Value or Moving Range based on the type user chooses) for each metric and method
 do.plot <- function(prodata, metricData, precursorSelection, L, U, plot.method,  y.title, type,selectMean,selectSD, guidset_selected) {
   if(plot.method=="CUSUM") {
-    CUSUM.plot(prodata, metricData, precursorSelection, L, U,  y.title, type)
+    CUSUM.plot(prodata, metricData, precursorSelection, y.title, type)
   } else if(plot.method=="CP") {
     CP.plot(prodata, metricData, precursorSelection, y.title, type)
   } else if(plot.method=="XmR") {
@@ -75,90 +118,28 @@ do.plot <- function(prodata, metricData, precursorSelection, L, U, plot.method, 
 #          "ytitle" is the title of the plot which is either Individual Value or Moving Range
 #          "type" is either 1 or 2. one is "Individual Value" plot and other "Moving Range" plot
 #DESCRIPTION: draws one CUSUM plot based on type for each given metric
-CUSUM.plot <- function(prodata, metricData, precursorSelection, L, U,  ytitle, type) {
-  plot.data <- CUSUM.data.prepare(prodata, metricData, precursorSelection, L, U, type)
-  #print(plot.data)
-  #ymax=ifelse(max(plot.data$CUSUM)>=CUSUM.outrange.thld,(max(plot.data$CUSUM)),CUSUM.outrange.thld)
-  #ymin=ifelse(min(plot.data$CUSUM)<=-CUSUM.outrange.thld,(min(plot.data$CUSUM)),-CUSUM.outrange.thld)
-  x <- list(
-    title =  paste("QCno - ", precursorSelection),
-    range = c(0, max(plot.data$QCno))
+CUSUM.plot <- function(prodata, metricData, precursorSelection,  ytitle, type) {
+  plot.data <- CUSUM.data.prepare(prodata, metricData, precursorSelection, type)
+  plot.data1 <- data.frame(
+    QCno = rep(plot.data$QCno,2),
+    CUSUMValue = c(plot.data$CUSUM.poz, plot.data$CUSUM.neg),
+    Annotations = rep(plot.data$Annotations,2),
+    outRangeInRange = c(as.character(plot.data$outRangeInRangePoz), as.character(plot.data$outRangeInRangeNeg))
   )
-  y <- list(
-    title = ytitle
-  )
-  
-  #plot_ly(plot.data, x = ~QCno, y = ~CUSUM.poz,showlegend = TRUE, type = "scatter", mode = "markers", color = ~outRangeInRangePoz)%>%
-  plot_ly(plot.data, x = ~QCno, y = ~CUSUM.poz,showlegend = FALSE)%>%
-    #add_markers(x = ~QCno, y = ~CUSUM.poz, color = ~outRangeInRangePoz,colors = colorRamp(c("green", "darkorange", "red")), name = "CUSUM Poz")%>%
-    #add_markers(x = ~QCno, y = ~CUSUM.neg,showlegend = FALSE, type = "scatter", mode = "markers", color = ~outRangeInRangeNeg,colors = colorRamp(c("blue", "darkorange", "purple")))%>%
+  #print(plot.data1)
+  pal <- c("lightslateblue","red","blue","red")
+  pal <- setNames(pal,c("InRangeCUSUM-","OutRangeCUSUM-","InRangeCUSUM+","OutRangeCUSUM+"))
+
+  plot_ly(plot.data1, x = ~QCno, y = ~CUSUMValue,showlegend = FALSE, text = ~Annotations)%>%
+
+    add_markers(x = ~QCno, y = ~CUSUMValue, color = ~outRangeInRange,
+               type="scatter",mode="markers", colors = pal , showlegend = FALSE) %>%
+
     add_lines(y = CUSUM.outrange.thld, color = I("red"), name = "CUSUM thld", showlegend = FALSE) %>%
     add_lines(y = -CUSUM.outrange.thld, color = I("red"), name = "CUSUM thld", showlegend = FALSE) %>%
-    add_lines(x = ~QCno, y = ~CUSUM.poz, color = I("aquamarine"),name = "CUSUM+", showlegend = TRUE)%>%
-    add_lines(x = ~QCno, y = ~CUSUM.neg, color = I("blue"), name = "CUSUM-",showlegend = TRUE)%>%
-    add_markers(x = ~QCno, y = ~CUSUM.neg, color = ~outRangeInRangeNeg,colors = c("red","green"),showlegend = TRUE)%>%
-    add_markers(x = ~QCno, y = ~CUSUM.poz, color = ~outRangeInRangePoz,colors = c("red","green"),showlegend = TRUE)
+    add_lines(data = plot.data, x = ~QCno, y = ~CUSUM.poz, color = I("cornflowerblue"),name = "CUSUM+", showlegend = FALSE) %>%
+    add_lines(data = plot.data, x = ~QCno, y = ~CUSUM.neg, color = I("lightskyblue"), name = "CUSUM-",showlegend = FALSE)
 
-   
-    # add_trace(x = ~QCno, y = ~t, color = ~InRangeOutRange, type="scatter", mode="markers", colors = c("blue","red"), inherit=FALSE)%>%
-    # layout(xaxis = x,yaxis = y)
-  
-  # p <- plot_ly(plot.data
-  #              , x = QCno
-  #              , y = CUSUM.poz
-  #              , line = list(color = "dodgerblue")
-  #              , name = "CUSUM+"
-  #              , showlegend = FALSE
-  #              , text = Annotations
-  # ) %>%
-  #   add_trace(  x = QCno
-  #             , y = CUSUM.neg
-  #             , line = list(color = "blue")
-  #             , name = "CUSUM-"
-  #             , showlegend = FALSE
-  #             , text = Annotations
-  #   ) %>%
-  #   layout(xaxis = x,yaxis = y, showlegend = FALSE) %>%
-  #   add_trace(x=c(0, max(plot.data$QCno)),y = c(CUSUM.outrange.thld,CUSUM.outrange.thld), marker=list(color="red" , size=4 , opacity=0.5), name = "UCL",showlegend = FALSE) %>%
-  #   add_trace(x=c(0, max(plot.data$QCno)),y = c(-CUSUM.outrange.thld,-CUSUM.outrange.thld), marker=list(color="red" , size=4 , opacity=0.5), name = "LCL",showlegend = FALSE) %>%
-  #   add_trace(  x = QCno
-  #             , y = CUSUM.neg
-  #             , mode = "markers"
-  #             , marker=list(color="blue" , size=5 , opacity=0.5)
-  #             , showlegend = FALSE,name=""
-  #   ) %>%
-  #   add_trace(  x = QCno
-  #               , y = CUSUM.poz
-  #               , mode = "markers"
-  #               , marker=list(color="blue" , size=5 , opacity=0.5)
-  #               , showlegend = FALSE,name=""
-  #   ) %>%
-  #   add_trace(x = plot.data[CUSUM.poz <= -CUSUM.outrange.thld, ]$QCno,
-  #             y = plot.data[CUSUM.poz <= -CUSUM.outrange.thld, ]$CUSUM.poz,
-  #             mode = "markers",
-  #             marker=list(color="red" , size=5 , opacity=0.5),
-  #             showlegend = FALSE,name=""
-  #   ) %>%
-  #   add_trace(x = plot.data[CUSUM.poz >= CUSUM.outrange.thld, ]$QCno,
-  #             y = plot.data[CUSUM.poz >= CUSUM.outrange.thld, ]$CUSUM.poz,
-  #             mode = "markers",
-  #             marker=list(color="red" , size=5 , opacity=0.5),
-  #             showlegend = FALSE,name=""
-  #   )%>%
-  #   add_trace(x = plot.data[CUSUM.neg <= -CUSUM.outrange.thld, ]$QCno,
-  #             y = plot.data[CUSUM.neg <= -CUSUM.outrange.thld, ]$CUSUM.neg,
-  #             mode = "markers",
-  #             marker=list(color="red" , size=5 , opacity=0.5),
-  #             showlegend = FALSE,name=""
-  #   ) %>%
-  #   add_trace(x = plot.data[CUSUM.neg >= CUSUM.outrange.thld, ]$QCno,
-  #             y = plot.data[CUSUM.neg >= CUSUM.outrange.thld, ]$CUSUM.neg,
-  #             mode = "markers",
-  #             marker=list(color="red" , size=5 , opacity=0.5),
-  #             showlegend = FALSE,name=""
-  #   )
-
-  #return(p)
 }
 #########################################################################################################################
 # INPUTS : "prodata" is the data user uploads.
@@ -169,22 +150,19 @@ CUSUM.plot <- function(prodata, metricData, precursorSelection, L, U,  ytitle, t
 #DESCRIPTION: draws one CP plot based on type for each given metric
 CP.plot <- function(prodata, metricData, precursorSelection, ytitle, type) {
   precursor.data <- prodata[prodata$Precursor==precursorSelection,]
-  ## Create variables
-  plot.data <- CP.data.prepare(prodata, metricData, type)
-  y.max=max(plot.data$Et) # y axis upper limit
-  y.min=0 # y axis lower limit
-
-  x <- list(
-    title = paste("QCno - ", precursorSelection)
-  )
-  y <- list(
-    title = ytitle
-  )
-    plot_ly(plot.data, x = ~QCno, y = ~Et,showlegend = FALSE)%>% #,text=precursor.data$Annotations)
+  if(type == 1) {Annotations = precursor.data$Annotations[-1]}
+  if(type == 2) {Annotations = precursor.data$Annotations}
+   plot.data <- CP.data.prepare(prodata, metricData, type)
+   plot.data1 <- data.frame(
+     QCno = plot.data$QCno,
+     Et = plot.data$Et,
+     tho.hat = plot.data$tho.hat,
+     Annotations = Annotations
+   )
+    plot_ly(plot.data1, x = ~QCno, y = ~Et,showlegend = FALSE, text = ~Annotations)%>% #,text=precursor.data$Annotations)
       add_lines(x = ~tho.hat, color = I("red"))%>%
-      add_lines(x = ~QCno, y = ~Et, color = I("blue"))%>%
-      add_markers(x = ~QCno, y = ~Et, color = I("purple"))
-    # work on title
+      add_lines(x = ~QCno, y = ~Et, color = I("cornflowerblue"))%>%
+      add_markers(x = ~QCno, y = ~Et, color = I("blue"))
 }
 #########################################################################################################################
 # INPUTS : "prodata" is the data user uploads.
@@ -197,25 +175,24 @@ CP.plot <- function(prodata, metricData, precursorSelection, ytitle, type) {
 XmR.plot <- function(prodata, metricData, precursorSelection, L, U, ytitle, type,selectMean,selectSD, guidset_selected) {
   precursor.data <- prodata[prodata$Precursor==precursorSelection,]
   plot.data <- XmR.data.prepare(prodata, metricData, L, U, type,selectMean,selectSD, guidset_selected)
-
-  #y.max=ifelse(max(plot.data$t)>=UCL,(max(plot.data$t)),UCL)
-  #y.min=ifelse(min(plot.data$t)<=LCL,(min(plot.data$t)),LCL)
-
-  x <- list(
-    title = paste("QCno - ", precursorSelection)
+  plot.data1 <- data.frame(
+    QCno = plot.data$QCno,
+    t = plot.data$t,
+    UCL = plot.data$UCL,
+    LCL = plot.data$LCL,
+    InRangeOutRange = plot.data$InRangeOutRange,
+    Annotations = precursor.data$Annotations
   )
-  y <- list(
-    title = ytitle
-  )
-  
-  
-  plot_ly(plot.data, x = ~QCno, y = ~t,showlegend = FALSE) %>%
-    add_lines(y = ~LCL, color = I("red"), name = "LCL") %>%
-    add_lines(y = ~UCL, color = I("red"), name = "UCL") %>%
-    add_lines(x = ~QCno, y = ~t, color = I("blue")) %>%
-    #add_markers(color= ~InRangeOutRange, colours=c("blue","red")) %>%
-    add_trace(x = ~QCno, y = ~t, color = ~InRangeOutRange, type="scatter", mode="markers", colors = c("blue","red"), inherit=FALSE)%>%
-    layout(xaxis = x,yaxis = y)
+
+  pal <- c("blue","red")
+  pal <- setNames(pal,c("InRange","OutRange"))
+
+  plot_ly(plot.data1, x = ~QCno, y = ~t ,showlegend = FALSE, text = ~Annotations) %>%
+    add_trace(x = ~QCno, y = ~t, color = ~InRangeOutRange, type="scatter",
+              mode="markers", colors = pal , showlegend = FALSE) %>%
+    add_lines(x = ~QCno, y = ~t, color = I("cornflowerblue"), showlegend = FALSE) %>%
+    add_lines(y = ~LCL, color = I("red"), name = "LCL", showlegend = FALSE) %>%
+    add_lines(y = ~UCL, color = I("red"), name = "UCL", showlegend = FALSE)
 
 }
 #################################################################################################################
@@ -267,6 +244,7 @@ CUSUM.Summary.plot <- function(prodata, data.metrics, L, U,listMean,listSD, guid
    gg <- gg + geom_hline(yintercept=0, alpha=0.5)
    gg <- gg + stat_smooth(method="loess", aes(x=dat$QCno, y=dat$pr.y, colour = group, group = group))
    gg <- gg + geom_point(data = tho.hat.df, aes(x = tho.hat.df$tho.hat, y = tho.hat.df$y, colour = "Change point"))
+   #gg <- gg + geom_point(aes(x = c(16,6),y = c(1.1,-1.1), colour = "Change point"))
    gg <- gg + scale_color_manual(breaks = c("Metric mean increase",
                                             "Metric mean decrease",
                                             "Metric dispersion increase",
@@ -308,7 +286,7 @@ XmR.Radar.Plot <- function(prodata, data.metrics, L,U,listMean,listSD,guidset_se
 
   dat <- XmR.Radar.Plot.DataFrame(prodata, data.metrics, L,U,listMean,listSD,guidset_selected)
   #write.csv(file="dataRadar.csv",dat)
-  
+  #print(dat)
   ggplot(dat, aes(y = OutRangeQCno, x = reorder(peptides,orderby),
                   group = group, colour = group, fill=group)) +
     coord_polar() +
@@ -396,39 +374,35 @@ metrics_box.plot <- function(prodata, data.metrics) {
     metric <- data.metrics[i]
     precursor.data <- substring(reorder(prodata$Precursor,prodata[,metric]), first = 1, last = 3)
     plots[[i]] <- plot_ly(prodata, y = prodata[,metric], color = precursor.data, type = "box") %>%
-      layout(yaxis = list(title = metric),showlegend = FALSE)
+      layout(
+        annotations = list(
+          list(x = 0.5 , y = 1, text = metric, showarrow = F, xref='paper', yref='paper')
+        ),showlegend = FALSE)
+      #layout(yaxis = list(title = metric),showlegend = FALSE)
   }
-
+  height <- (length(data.metrics))*300
   p <- do.call(subplot,c(plots,nrows=length(plots))) %>%
-    layout(autosize = F, width = 700, height = 1000)
+    layout(autosize = F, width = 700, height = height)
   return(p)
 }
 #####################################################################################################
-metrics_heat.map <- function(prodata,data.metrics, method,peptideThresholdRed,peptideThresholdYellow, L, U, type, title,listMean, listSD, guidset_selected) {
+metrics_heat.map <- function(prodata,data.metrics, method,peptideThresholdRed,peptideThresholdYellow,
+                             L, U, type, title,listMean, listSD, guidset_selected) {
 
   #color_palette <- colorRampPalette(c("green", "yellow", "red"))(3)
-  data <- heatmap.DataFrame(prodata, data.metrics,method,peptideThresholdRed,peptideThresholdYellow, L, U, type,listMean, listSD, guidset_selected)
-
-  p <- ggplot(data,aes(time,metric, group = bin, fill = bin))
-
-  p <- p + scale_fill_manual(values=c("Acceptable" = "green","Unacceptable" = "red","Poor" = "yellow", name = "")
-                            )
+  data <- heatmap.DataFrame(prodata, data.metrics,method,peptideThresholdRed,peptideThresholdYellow,
+                            L, U, type,listMean, listSD, guidset_selected)
+  #print(data)
+  p <- ggplot(data,aes(time,metric, group = flag, fill = flag))
+  p <- p + scale_fill_manual(values=c("Acceptable" = "blue","Unacceptable" = "red","Poor" = "yellow")
+                             )
   p <- p + geom_tile(colour="white",size=.1)
   p <- p + coord_equal()
-  #p <- p + theme_minimal(base_size = 10, base_family = "Trebuchet MS")
   p <- p + removeGrid()
   p <- p + rotateTextX()
-
   p <- p + ggtitle(title,subtitle = "")
-
   p <- p + labs(x=NULL, y=NULL)
-  #p <- p + theme(plot.title=element_text(hjust=0))
-  #p <- p + theme(axis.ticks=element_blank())
-
-  #p <- p +  theme(legend.title=element_text(size=16))
-  #p <- p +  theme(legend.text=element_text(size=12))
-  #p<-p + scale_fill_manual(values = color_palette, name = "")
   p <- p +  theme(axis.text=element_text(size=12),legend.title = element_blank())
-
-   p
+  p
 }
+
