@@ -33,8 +33,8 @@ DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThreshol
   data.metrics <- data.metrics[!data.metrics %in% remove]
 
   data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,peptideThresholdYellow, L, U, type,listMean, listSD)
-  #print(data)
-  p <- ggplot(data,aes(time,metric, group = bin, fill = bin))
+
+  p <- ggplot(data,aes(data$time,data$metric, group = data$bin, fill = data$bin))
   p <- p + scale_fill_manual(values=c("Acceptable" = "blue","Unacceptable" = "red","Poor" = "yellow"))
   p <- p + geom_tile(colour="white",size=.1)
   p <- p + coord_equal()

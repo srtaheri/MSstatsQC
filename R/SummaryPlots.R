@@ -27,7 +27,7 @@ XmRSummaryPlots <- function(data, L=1, U=5, listMean=NULL, listSD=NULL) {
 
   gg <- ggplot(dat)
   gg <- gg + geom_hline(yintercept=0, alpha=0.5)
-  gg <- gg + geom_smooth(method="loess",aes(x=dat$QCno, y=dat$pr.y,colour = group, group = group))
+  gg <- gg + geom_smooth(method="loess",aes(x=dat$QCno, y=dat$pr.y,colour = dat$group, group = dat$group))
   gg <- gg + geom_point(data = tho.hat.df, aes(x = tho.hat.df$tho.hat, y = tho.hat.df$y, colour = "Change point"))
   gg <- gg + scale_color_manual(breaks = c("Metric mean increase",
                                            "Metric mean decrease",
@@ -92,7 +92,7 @@ CUSUMSummaryPlots <- function(data, L = 1, U = 5, listMean=NULL, listSD=NULL) {
 
   gg <- ggplot(dat)
   gg <- gg + geom_hline(yintercept=0, alpha=0.5)
-  gg <- gg + stat_smooth(method="loess", aes(x=dat$QCno, y=dat$pr.y, colour = group, group = group))
+  gg <- gg + stat_smooth(method="loess", aes(x=dat$QCno, y=dat$pr.y, colour = dat$group, group = dat$group))
   gg <- gg + geom_point(data = tho.hat.df, aes(x = tho.hat.df$tho.hat, y = tho.hat.df$y, colour = "Change point"))
   gg <- gg + scale_color_manual(breaks = c("Metric mean increase",
                                            "Metric mean decrease",

@@ -12,6 +12,7 @@
 #' @import ggplot2
 #' @import RecordLinkage
 #' @import grid
+#' @import stats
 #' @examples
 #' XmR.Radar.Plot()
 ###########################################################################################
@@ -21,6 +22,10 @@ XmR.Radar.Plot <- function(data, L = 1, U = 5, listMean = NULL, listSD = NULL) {
   remove <- c("MinStartTime","MaxEndTime")
   data.metrics <- data.metrics[!data.metrics %in% remove]
   dat <- XmR.Radar.Plot.DataFrame(data, data.metrics, L,U,listMean,listSD)
+  OutRangeQCno <- dat$OutRangeQCno
+  peptides <- dat$peptides
+  orderby <- dat$orderby
+  group <- dat$group
   ggplot(dat, aes(y = OutRangeQCno, x = reorder(peptides,orderby),
                   group = group, colour = group, fill=group)) +
     coord_polar() +
@@ -74,13 +79,19 @@ XmR.Radar.Plot <- function(data, L = 1, U = 5, listMean = NULL, listSD = NULL) {
 #' @import ggplot2
 #' @import RecordLinkage
 #' @import grid
+#' @import stats
 #' @examples
 #' CUSUM.Radar.Plot()
 CUSUM.Radar.Plot <- function(data, L = 1, U = 5, listMean = NULL, listSD = NULL) {
-  data.metrics <- c(find_custom_metrics(data))
+
+  data.metrics <- find_custom_metrics(data)
   remove <- c("MinStartTime","MaxEndTime")
   data.metrics <- data.metrics[!data.metrics %in% remove]
   dat <- CUSUM.Radar.Plot.DataFrame(data, data.metrics, L,U,listMean,listSD)
+  OutRangeQCno <- dat$OutRangeQCno
+  peptides <- dat$peptides
+  orderby <- dat$orderby
+  group <- dat$group
 
   ggplot(dat, aes(y = OutRangeQCno, x = reorder(peptides,orderby),
                   group = group, colour = group, fill = group)) +
