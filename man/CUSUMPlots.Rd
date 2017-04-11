@@ -4,8 +4,9 @@
 \alias{CUSUMPlots}
 \title{A function to create cumulative sum charts for mean (CUSUMm) and cumulative sum charts for variability (CUSUMv) control charts for QC metrics}
 \usage{
-CUSUMPlots(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
-  ytitle = "CUSUMm", type = "mean", selectMean = NULL, selectSD = NULL)
+CUSUMPlots(data = NULL, peptide, L = 1, U = 5, metric,
+  normalization = TRUE, ytitle = "CUSUMm", type = "mean",
+  selectMean = NULL, selectSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns.
@@ -31,9 +32,6 @@ It can also include "Annotations" for each observation.}
 }
 \description{
 This function allows you to calculate CUSUMm and CUSUMv statistics and draw control charts for certain QC metrics and peptides.
-}
-\examples{
-CUSUMPlots()
 }
 \keyword{Cumulative}
 \keyword{Sum,}

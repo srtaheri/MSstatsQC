@@ -14,12 +14,13 @@
 #' @keywords Change point, control chart
 #' @export
 #' @import dplyr
-#' @import plotly
+#' @importFrom plotly plot_ly add_markers add_lines layout
 #' @import RecordLinkage
-#' @examples
-#' ChangePointEstimator()
-ChangePointEstimator <- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
+
+ChangePointEstimator <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,
                                  ytitle = "Change Point Plot - mean", type = "mean", selectMean = NULL, selectSD = NULL) {
+  if(is.null(data))
+    return()
   if(!is.data.frame(data)){
     stop(data)
   }

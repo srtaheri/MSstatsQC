@@ -4,7 +4,7 @@
 \alias{ChangePointEstimator}
 \title{A Change Point (CP) Function}
 \usage{
-ChangePointEstimator(data, peptide, L = 1, U = 5, metric,
+ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
   normalization = TRUE, ytitle = "Change Point Plot - mean",
   type = "mean", selectMean = NULL, selectSD = NULL)
 }
@@ -31,9 +31,6 @@ ChangePointEstimator(data, peptide, L = 1, U = 5, metric,
 }
 \description{
 This function allows you to calculate change point statistics for a step change in mean or variability.
-}
-\examples{
-ChangePointEstimator()
 }
 \keyword{Change}
 \keyword{chart}

@@ -4,9 +4,9 @@
 \alias{XmRPlots}
 \title{A function to create individual (X) and moving range (mR) control charts for QC metrics}
 \usage{
-XmRPlots(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
-  ytitle = "Individual Observations", type = "mean", selectMean = NULL,
-  selectSD = NULL)
+XmRPlots(data = NULL, peptide, L = 1, U = 5, metric,
+  normalization = FALSE, ytitle = "Individual Observations",
+  type = "mean", selectMean = NULL, selectSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns.
@@ -33,9 +33,6 @@ The x-axis title is by default "QCno-name of peptide".}
 }
 \description{
 This function allows you to calculate X and mR statistics and draw control charts for certain QC metrics and peptides.
-}
-\examples{
-XmRPlots()
 }
 \keyword{XmR}
 \keyword{chart}

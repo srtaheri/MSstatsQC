@@ -4,15 +4,14 @@
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @export
 #' @import dplyr
-#' @import plotly
 #' @import RecordLinkage
-#' @examples
-#' DataProcess()
+
 
 #########################################################################################################
 
-DataProcess <- function(data){
-
+DataProcess <- function(data = NULL){
+  if(is.null(data))
+    return()
   ## save process output in each step #### creating a log file ########### from Meena's code
   allfiles <- list.files()
 

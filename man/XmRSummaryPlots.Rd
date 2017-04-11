@@ -4,7 +4,8 @@
 \alias{XmRSummaryPlots}
 \title{A river plot to summarize results from XmR plots}
 \usage{
-XmRSummaryPlots(data, L = 1, U = 5, listMean = NULL, listSD = NULL)
+XmRSummaryPlots(data = NULL, L = 1, U = 5, listMean = NULL,
+  listSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -19,9 +20,6 @@ XmRSummaryPlots(data, L = 1, U = 5, listMean = NULL, listSD = NULL)
 }
 \description{
 This function allows you to draw the XmR summary plot.
-}
-\examples{
-XmRSummaryPlots()
 }
 \keyword{Summary}
 \keyword{XmR}

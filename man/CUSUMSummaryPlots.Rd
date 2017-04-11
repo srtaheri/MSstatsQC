@@ -4,7 +4,8 @@
 \alias{CUSUMSummaryPlots}
 \title{A river plot to summarize results from CUSUMm and CUSUMv plots}
 \usage{
-CUSUMSummaryPlots(data, L = 1, U = 5, listMean = NULL, listSD = NULL)
+CUSUMSummaryPlots(data = NULL, L = 1, U = 5, listMean = NULL,
+  listSD = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
@@ -19,9 +20,6 @@ CUSUMSummaryPlots(data, L = 1, U = 5, listMean = NULL, listSD = NULL)
 }
 \description{
 This function allows you to draw the CUSUM summary plot.
-}
-\examples{
-CUSUMSummaryPlots()
 }
 \keyword{CUSUM}
 \keyword{Summary}

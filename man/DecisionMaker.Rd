@@ -4,7 +4,7 @@
 \alias{DecisionMaker}
 \title{Heatmaps for visualization of overall system performance}
 \usage{
-DecisionMaker(data, method, peptideThresholdRed = 0.7,
+DecisionMaker(data = NULL, method, peptideThresholdRed = 0.7,
   peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
   title = "heatmap plot", listMean = NULL, listSD = NULL)
 }
@@ -31,9 +31,6 @@ DecisionMaker(data, method, peptideThresholdRed = 0.7,
 }
 \description{
 This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
-}
-\examples{
-DecisionMaker()
 }
 \keyword{heatmap}
 

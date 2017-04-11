@@ -4,15 +4,12 @@
 \alias{DataProcess}
 \title{A data processing function}
 \usage{
-DataProcess(data)
+DataProcess(data = NULL)
 }
 \arguments{
 \item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
 }
 \description{
 This function allows you to validate the dataset for further analysis
-}
-\examples{
-DataProcess()
 }
 

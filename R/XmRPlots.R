@@ -18,14 +18,16 @@
 #'          control chart
 #' @export
 #' @import dplyr
-#' @import plotly
+#' @importFrom plotly plot_ly add_trace add_lines layout
+#' @importFrom stats setNames sd
 #' @import RecordLinkage
-#' @examples
-#' XmRPlots()
+
 ################################################################################################################
-XmRPlots <- function(data, peptide, L = 1, U = 5, metric, normalization = FALSE,
+XmRPlots <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = FALSE,
                      ytitle = "Individual Observations", type = "mean",selectMean = NULL,selectSD = NULL) {
   #data <- input_checking(data)
+  if(is.null(data))
+    return()
   if(!is.data.frame(data)){
     stop(data)
   }

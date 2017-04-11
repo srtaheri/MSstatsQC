@@ -4,13 +4,13 @@
 \alias{RunShiny}
 \title{Shiny connection for example datasets}
 \usage{
-RunShiny(data)
+RunShiny(data = NULL)
+}
+\arguments{
+\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
 }
 \description{
 This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
-}
-\examples{
-RunShiny()
 }
 \keyword{shiny}
 

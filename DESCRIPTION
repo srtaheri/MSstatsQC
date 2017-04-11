@@ -13,4 +13,5 @@ License: Artistic License 2.0
 LazyData: TRUE
 RoxygenNote: 5.0.1
 Imports:
-    dplyr,plotly,RecordLinkage,shiny,ggplot2,ggExtra, stats
+    dplyr,plotly,RecordLinkage,shiny,ggplot2,ggExtra,
+    stats

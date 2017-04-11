@@ -16,14 +16,16 @@
 #' @keywords Cumulative Sum, control chart
 #' @export
 #' @import dplyr
-#' @import plotly
+#' @importFrom plotly plot_ly add_markers add_lines layout
+#' @importFrom stats setNames
 #' @import RecordLinkage
-#' @examples
-#' CUSUMPlots()
+
 
 #################################################################################################
-CUSUMPlots<- function(data, peptide, L = 1, U = 5, metric, normalization = TRUE,
+CUSUMPlots<- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,
                       ytitle = "CUSUMm", type = "mean", selectMean = NULL, selectSD = NULL) {
+  if(is.null(data))
+    return()
   #data <- input_checking(data)
   if(!is.data.frame(data)){
     stop(data)

@@ -12,10 +12,10 @@
 #' @import ggplot2
 #' @import RecordLinkage
 #' @import grid
-#' @examples
-#' XmRSummaryPlots()
-XmRSummaryPlots <- function(data, L=1, U=5, listMean=NULL, listSD=NULL) {
 
+XmRSummaryPlots <- function(data = NULL, L=1, U=5, listMean=NULL, listSD=NULL) {
+  if(is.null(data))
+    return()
    if(!is.data.frame(data)){
     stop(data)
   }
@@ -75,10 +75,10 @@ XmRSummaryPlots <- function(data, L=1, U=5, listMean=NULL, listSD=NULL) {
 #' @export
 #' @import ggplot2
 #' @import RecordLinkage
-#' @examples
-#' CUSUMSummaryPlots()
-CUSUMSummaryPlots <- function(data, L = 1, U = 5, listMean=NULL, listSD=NULL) {
 
+CUSUMSummaryPlots <- function(data = NULL, L = 1, U = 5, listMean=NULL, listSD=NULL) {
+  if(is.null(data))
+    return()
   if(!is.data.frame(data)){
     stop(data)
   }

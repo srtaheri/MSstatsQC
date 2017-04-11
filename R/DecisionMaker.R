@@ -14,16 +14,17 @@
 #' @keywords heatmap
 #' @export
 #' @import ggplot2
-#' @import ggExtra
+#' @importFrom  ggExtra removeGrid rotateTextX
 #' @import RecordLinkage
 #' @import grid
-#' @examples
-#' DecisionMaker()
+
 
 #########################################################################################################
-DecisionMaker <- function(data, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5,
+DecisionMaker <- function(data = NULL, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5,
                           L = 1, U = 5, type = "mean", title = "heatmap plot",listMean = NULL, listSD = NULL) {
 
+  if(is.null(data))
+    return()
   if(!is.data.frame(data)){
     stop(data)
   }
