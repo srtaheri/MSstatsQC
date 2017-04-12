@@ -252,7 +252,7 @@ CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", 
 
 "Control charts" tab is used to construct X and mR and CUSUMm and CUSUMv control charts.
 
-<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/3.XmR chart TAA.png" width="500">
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/3.XmRChartTAA.png" width="500">
 
 <img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/4.CUSUM for TAA.png" width="500">
 

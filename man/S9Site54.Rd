@@ -3,22 +3,19 @@
 \docType{data}
 \name{S9Site54}
 \alias{S9Site54}
-\title{CPTAC system suitability testing data for Site 54 from Study 9.1}
+\title{CPTAC study 9.1 site 54 dataset}
 \format{csv}
-\source{
-from labratory
-}
 \usage{
 data(S9Site54)
 }
 \description{
-a sample data to use in the package
+system suitabilty testing results generated during CPTAC Study 9.1 for Site 54
 }
 \details{
 CPTAC system suitability testing data for Site 54 from Study 9.1
 }
 \references{
-my computer
+\url{http://www.mcponline.org/content/early/2015/02/18/mcp.M114.047050}
 }
 \keyword{datasets}
 

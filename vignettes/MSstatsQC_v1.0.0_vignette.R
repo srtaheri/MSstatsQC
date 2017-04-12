@@ -74,3 +74,29 @@
 #  CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "RetentionTime", type="dispersion", L=1, U=20, ytitle="CUSUMv")
 #  CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", L=1, U=20, ytitle="CUSUMv")
 
+## ---- eval=FALSE---------------------------------------------------------
+#  # Retention time >> first 20 observations are used as a guide set
+#  XmRPlots(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+#  ChangePointEstimator(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  # Retention time >> first 20 observations are used as a guide set
+#  XmRPlots(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+#  ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="dispersion", L = 1, U = 20)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  # Retention time >> first 20 observations are used as a guide set
+#  XmRRiverPlots(S9Site54, L=1, U=20)
+#  XmRRadarPlots(S9Site54, L=1, U=20)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  # Retention time >> first 20 observations are used as a guide set
+#  CUSUMRiverPlots(S9Site54, L=1, U=20)
+#  CUSUMRadarPlots(S9Site54, L=1, U=20)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  # A decision map for Site 54 can be generated using the following script
+#  # Retention time >> first 20 observations are used as a guide set
+#  DecisionMap(S9Site54,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
+#                            L = 1,U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
+
