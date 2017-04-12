@@ -1,11 +1,7 @@
-## ---- eval=FALSE, echo=FALSE---------------------------------------------
-#  CPTAC_Study9.1_Site54 <- read.csv('/Users/sarataheri/GitHub/msstats-qc/Datasets/Sampledata_CPTAC_Study_9_1_Site54.csv', header=TRUE)
-
 ## ---- eval=FALSE---------------------------------------------------------
 #  #A typical multi peptide and multi metric system suitability dataset
 #  #This dataset was generated during CPTAC Study 9.1 at Site 54
-#  # This a Comma-separated (*.csv), QC file format
-#  S9Site54 <- CPTAC_Study9.1_Site54
+#  S9Site54 <- read.csv('Sampledata_CPTAC_Study_9_1_Site54.csv', header=TRUE)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  #A general MSstatsQC plot function when a guide set (1-20 runs) is used to monitor the mean of a metric
