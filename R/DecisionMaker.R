@@ -1,14 +1,21 @@
 #' Heatmaps for visualization of overall system performance
 #'
-#' This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
-#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
+#' This function allows you to draw the heatmaps to help user test their decision
+#'  intervals. This plot provides massages about overall system performance.
+#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor
+#'  column and the metrics columns.
 #' @param method It is either "CUSUM" or "XmR"
-#' @param peptideThresholdRed Is a threshold that marks percentage of peptides above it red on the heatmap. Defaults to 0.7
-#' @param peptideThresholdYellow Is a threshold that marks percentage of peptides above it and below the peptideThresholdRed, yellow on the heatmap. Defaults to 0.5
+#' @param peptideThresholdRed Is a threshold that marks percentage of peptides above it
+#'  red on the heatmap. Defaults to 0.7
+#' @param peptideThresholdYellow Is a threshold that marks percentage of peptides above
+#'  it and below the peptideThresholdRed, yellow on the heatmap. Defaults to 0.5
 #' @param L Lower bound of the giude set. Defaults to 1
 #' @param U Upper bound of the guide set. Defaults to 5
-#' @param listMean List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
-#' @param listSD List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
+#' @param listMean List of the means for the metrics. If you don't know the means leave
+#'  it as NULL and they will be calculated automatically by using L and U. The default is NULL.
+#' @param listSD List of the standard deviations for the metrics. If you don't know the
+#'  standard deviations leave it as NULL and they will be calculated automatically by using L and U.
+#'   The default is NULL.
 #' @param type can take two values, "mean" or "dispersion". Defaults to "mean"
 #' @param title the title of the plot. Defaults to "heatmap plot"
 #' @keywords heatmap
@@ -17,11 +24,25 @@
 #' @importFrom  ggExtra removeGrid rotateTextX
 #' @import RecordLinkage
 #' @import grid
-
+#' @examples
+#' # First process the data to make sure it's ready to use
+#' sampleData <- DataProcess(S9Site54)
+#' head(sampleData)
+#' # Draw Decision maker plot
+#' DecisionMaker(data = sampleData, method = "CUSUM")
+#' DecisionMaker(data = sampleData, method = "CUSUM", type = "dispersion")
+#' DecisionMaker(data = sampleData, method = "XmR")
+#' DecisionMaker(data = sampleData, method = "XmR", type = "dispersion")
+#' DecisionMaker(data = sampleData, method = "CUSUM", type = "mean",
+#'               listMean = list("BestRetentionTime" = 27.78,"TotalArea" = 35097129, "MaxFWHM" = 0.28, "Peak Assymetry" = 0.98),
+#'               listSD = list("BestRetentionTime" = 8.19,"TotalArea" = 34132861, "MaxFWHM" = 0.054, "Peak Assymetry" = 0.002)
+#'                  )
 
 #########################################################################################################
-DecisionMaker <- function(data = NULL, method,peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5,
-                          L = 1, U = 5, type = "mean", title = "heatmap plot",listMean = NULL, listSD = NULL) {
+DecisionMaker <- function(data = NULL, method,
+                          peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5,
+                          L = 1, U = 5, type = "mean", title = "heatmap plot",
+                          listMean = NULL, listSD = NULL) {
 
   if(is.null(data))
     return()
@@ -33,10 +54,12 @@ DecisionMaker <- function(data = NULL, method,peptideThresholdRed = 0.7,peptideT
   remove <- c("MinStartTime","MaxEndTime")
   data.metrics <- data.metrics[!data.metrics %in% remove]
 
-  data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,peptideThresholdYellow, L, U, type,listMean, listSD)
+  data <- heatmap.DataFrame(data, data.metrics,method,peptideThresholdRed,
+                            peptideThresholdYellow, L, U, type,listMean, listSD)
 
   p <- ggplot(data,aes(data$time,data$metric, group = data$bin, fill = data$bin))
-  p <- p + scale_fill_manual(values=c("Acceptable" = "blue","Unacceptable" = "red","Poor" = "yellow"))
+  p <- p + scale_fill_manual(values =
+                               c("Acceptable" = "blue","Unacceptable" = "red","Poor" = "yellow"))
   p <- p + geom_tile(colour="white",size=.1)
   p <- p + coord_equal()
   p <- p + removeGrid()

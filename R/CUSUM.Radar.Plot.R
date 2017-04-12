@@ -5,8 +5,8 @@
 #' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
 #' @param L Lower bound of the giude set. Default is 1.
 #' @param U Upper bound of the guide set. Default is 5.
-#' @param listMean List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
-#' @param listSD List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
+#' @param listMean List of the means for the metrics. If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
+#' @param listSD List of the standard deviations for the metrics. If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.
 #' @keywords CUSUM
 #'           river plot
 #' @export
@@ -14,6 +14,16 @@
 #' @import RecordLinkage
 #' @import grid
 #' @importFrom  stats reorder
+#' @examples
+#' # First process the data to make sure it's ready to use
+#' sampleData <- DataProcess(S9Site54)
+#' head(sampleData)
+#' # Calculate CUSUM radar plot
+#' CUSUM.Radar.Plot(data = sampleData)
+#' CUSUM.Radar.Plot(data = sampleData,
+#'                  listMean = list("BestRetentionTime" = 27.78,"TotalArea" = 35097129, "MaxFWHM" = 0.28, "Peak Assymetry" = 0.98),
+#'                  listSD = list("BestRetentionTime" = 8.19,"TotalArea" = 34132861, "MaxFWHM" = 0.054, "Peak Assymetry" = 0.002)
+#'                  )
 
 CUSUM.Radar.Plot <- function(data = NULL, L = 1, U = 5, listMean = NULL, listSD = NULL) {
   if(is.null(data))

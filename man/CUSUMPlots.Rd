@@ -18,20 +18,42 @@ It can also include "Annotations" for each observation.}
 
 \item{U}{Upper bound of the guide set.}
 
-\item{metric}{The name of the QC metric. For example it can be "BestRetentionTime"}
+\item{metric}{The name of the QC metric in your data.}
 
 \item{normalization}{TRUE if data is standardized.}
 
-\item{ytitle}{The y-axis name of the plot.It can be either "CUSUMm" or "CUSUMv".  The x-axis title is by default "QCno-name of peptide"}
+\item{ytitle}{The y-axis name of the plot. It can be either "CUSUMm" or "CUSUMv" or any name of your choice.
+Defaults to "CUSUMm".  The x-axis title is by default "QCno-name of peptide"}
 
 \item{type}{can take two values, "mean" or "dispersion". Defaults to "mean"}
 
-\item{selectMean}{The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+\item{selectMean}{The mean of the metric. If you know it, enter the value of mean. If you don't know the mean
+of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
 
-\item{selectSD}{The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+\item{selectSD}{The standard deviatiob of the metric. If you know it, enter the value of standard deviation.
+If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically
+ by using L and U. The default is NULL.}
 }
 \description{
 This function allows you to calculate CUSUMm and CUSUMv statistics and draw control charts for certain QC metrics and peptides.
+}
+\examples{
+# First process the data to make sure it's ready to use
+sampleData <- DataProcess(S9Site54)
+head(sampleData)
+# Find the name of the peptides
+levels(sampleData$Precursor)
+# Calculate CUSUM statistics
+CUSUMPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
+CUSUMPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+           ytitle = "CUSUMv", type = "dispersion")
+CUSUMPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+           selectMean = 27.78, selectSD = 8.19)
+CUSUMPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
+CUSUMPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+           selectMean = 35097129, selectSD = 34132861)
+CUSUMPlots(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
+CUSUMPlots(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
 \keyword{Cumulative}
 \keyword{Sum,}

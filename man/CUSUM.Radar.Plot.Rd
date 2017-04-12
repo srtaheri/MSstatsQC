@@ -14,12 +14,23 @@ CUSUM.Radar.Plot(data = NULL, L = 1, U = 5, listMean = NULL,
 
 \item{U}{Upper bound of the guide set. Default is 5.}
 
-\item{listMean}{List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
+\item{listMean}{List of the means for the metrics. If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
 
-\item{listSD}{List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
+\item{listSD}{List of the standard deviations for the metrics. If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
 }
 \description{
 This function allows you to draw the CUSUM river plot.
+}
+\examples{
+# First process the data to make sure it's ready to use
+sampleData <- DataProcess(S9Site54)
+head(sampleData)
+# Calculate CUSUM radar plot
+CUSUM.Radar.Plot(data = sampleData)
+CUSUM.Radar.Plot(data = sampleData,
+                 listMean = list("BestRetentionTime" = 27.78,"TotalArea" = 35097129, "MaxFWHM" = 0.28, "Peak Assymetry" = 0.98),
+                 listSD = list("BestRetentionTime" = 8.19,"TotalArea" = 34132861, "MaxFWHM" = 0.054, "Peak Assymetry" = 0.002)
+                 )
 }
 \keyword{CUSUM}
 \keyword{plot}

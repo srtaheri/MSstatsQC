@@ -9,13 +9,16 @@ DecisionMaker(data = NULL, method, peptideThresholdRed = 0.7,
   title = "heatmap plot", listMean = NULL, listSD = NULL)
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
+\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor
+column and the metrics columns.}
 
 \item{method}{It is either "CUSUM" or "XmR"}
 
-\item{peptideThresholdRed}{Is a threshold that marks percentage of peptides above it red on the heatmap. Defaults to 0.7}
+\item{peptideThresholdRed}{Is a threshold that marks percentage of peptides above it
+red on the heatmap. Defaults to 0.7}
 
-\item{peptideThresholdYellow}{Is a threshold that marks percentage of peptides above it and below the peptideThresholdRed, yellow on the heatmap. Defaults to 0.5}
+\item{peptideThresholdYellow}{Is a threshold that marks percentage of peptides above
+it and below the peptideThresholdRed, yellow on the heatmap. Defaults to 0.5}
 
 \item{L}{Lower bound of the giude set. Defaults to 1}
 
@@ -25,12 +28,30 @@ DecisionMaker(data = NULL, method, peptideThresholdRed = 0.7,
 
 \item{title}{the title of the plot. Defaults to "heatmap plot"}
 
-\item{listMean}{List of the means for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with means of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the means leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
+\item{listMean}{List of the means for the metrics. If you don't know the means leave
+it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
 
-\item{listSD}{List of the standard deviations for the metrics. If you have 3 metrics named "Best.RT","FWHM" and "PeakArea" with standard deviations of 2,1.5,2.2 respectively, you have to write listMean = list("Best.RT" = 2,"FWHM" = 1.5, "PeakArea" = 2.2). If you don't know the standard deviations leave it as NULL and they will be calculated automatically by using L and U. The default is NULL.}
+\item{listSD}{List of the standard deviations for the metrics. If you don't know the
+standard deviations leave it as NULL and they will be calculated automatically by using L and U.
+ The default is NULL.}
 }
 \description{
-This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
+This function allows you to draw the heatmaps to help user test their decision
+ intervals. This plot provides massages about overall system performance.
+}
+\examples{
+# First process the data to make sure it's ready to use
+sampleData <- DataProcess(S9Site54)
+head(sampleData)
+# Draw Decision maker plot
+DecisionMaker(data = sampleData, method = "CUSUM")
+DecisionMaker(data = sampleData, method = "CUSUM", type = "dispersion")
+DecisionMaker(data = sampleData, method = "XmR")
+DecisionMaker(data = sampleData, method = "XmR", type = "dispersion")
+DecisionMaker(data = sampleData, method = "CUSUM", type = "mean",
+              listMean = list("BestRetentionTime" = 27.78,"TotalArea" = 35097129, "MaxFWHM" = 0.28, "Peak Assymetry" = 0.98),
+              listSD = list("BestRetentionTime" = 8.19,"TotalArea" = 34132861, "MaxFWHM" = 0.054, "Peak Assymetry" = 0.002)
+                 )
 }
 \keyword{heatmap}
 

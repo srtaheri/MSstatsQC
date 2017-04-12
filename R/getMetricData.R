@@ -1,5 +1,6 @@
 getMetricData <- function(prodata, peptide, L, U, metric, normalization, selectMean, selectSD) {
-  precursor.data<-prodata[prodata$Precursor==peptide,] #"Precursor" is one of the columns in data that shows the name of peptides
+  #"Precursor" is one of the columns in data that shows the name of peptides
+  precursor.data<-prodata[prodata$Precursor==peptide,]
   metricData <- 0
   mu <- 0
   sd <- 0

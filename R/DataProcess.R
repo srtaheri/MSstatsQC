@@ -1,11 +1,14 @@
 #' A data processing function
 #'
 #' This function allows you to validate the dataset for further analysis
-#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
+#' @param data Comma-separated (*.csv), QC file format.
+#'  It should contain a Precursor column and the metrics columns.
 #' @export
 #' @import dplyr
 #' @import RecordLinkage
-
+#' @examples
+#' # The data is "S9Site54" which is defined in the package.
+#' data <- DataProcess(S9Site54)
 
 #########################################################################################################
 
@@ -29,7 +32,7 @@ DataProcess <- function(data = NULL){
   #print(session)
   #sink()
 
-  #processout <- as.matrix(read.table("./log/sessionInfo.txt", header=T, sep="\t"))
+  #processout <- as.matrix(read.table("./log/sessionInfo.txt", header=TRUE, sep="\t"))
   #write.table(processout, file=finalfile, row.names=FALSE)
 
   #processout <- rbind(processout, as.matrix(c(" "," ","MSstatsqc - dataProcess function"," "),ncol=1))

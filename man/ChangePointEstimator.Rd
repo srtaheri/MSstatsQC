@@ -17,11 +17,11 @@ ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
 
 \item{U}{Upper bound of the guide set}
 
-\item{metric}{QC metric to be monitored}
+\item{metric}{QC metric in your data to be monitored.}
 
 \item{normalization}{TRUE if QC metric is standardized and FALSE if not standardized}
 
-\item{ytitle}{The y-axis title of the plot. Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
+\item{ytitle}{The y-axis title of the plot. It can be any name of your choice. Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
 
 \item{type}{can take two values, "mean" or "dispersion".}
 
@@ -31,6 +31,21 @@ ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
 }
 \description{
 This function allows you to calculate change point statistics for a step change in mean or variability.
+}
+\examples{
+# First process the data to make sure it's ready to use
+sampleData <- DataProcess(S9Site54)
+head(sampleData)
+# Find the name of the peptides
+levels(sampleData$Precursor)
+# Calculate change point statistics
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime", ytitle = "Change Point Plot - dispersion", type = "dispersion")
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime", selectMean = 27.78, selectSD = 8.19)
+ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
+ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea", selectMean = 35097129, selectSD = 34132861)
+ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
+ChangePointEstimator(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
 \keyword{Change}
 \keyword{chart}

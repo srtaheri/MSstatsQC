@@ -7,10 +7,12 @@
 RunShiny(data = NULL)
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
+\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column
+and the metrics columns.}
 }
 \description{
-This function allows you to draw the heatmaps to help user test their decision intervals. This plot provides massages about overall system performance.
+This function allows you to draw the heatmaps to help user test their decision intervals.
+ This plot provides massages about overall system performance.
 }
 \keyword{shiny}
 

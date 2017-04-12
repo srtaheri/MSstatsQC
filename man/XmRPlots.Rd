@@ -9,7 +9,8 @@ XmRPlots(data = NULL, peptide, L = 1, U = 5, metric,
   type = "mean", selectMean = NULL, selectSD = NULL)
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC metric file. It should contain a "Precursor" column and the "QC metrics" columns.
+\item{data}{Comma-separated (*.csv), QC metric file.
+It should contain a "Precursor" column and the "QC metrics" columns.
 It can also include "Annotations" for each observation.}
 
 \item{peptide}{The name of precursor you want to draw the plot for.}
@@ -18,21 +19,46 @@ It can also include "Annotations" for each observation.}
 
 \item{U}{Upper bound of the guide set.}
 
-\item{metric}{The name of the QC metric. For example it can be "BestRetentionTime"}
+\item{metric}{The name of the QC metric in your data.}
 
 \item{normalization}{TRUE if data is standardized.}
 
-\item{ytitle}{The y-axis name of the plot. It can be either "individual observations" or "moving ranges".
+\item{ytitle}{The y-axis name of the plot.
+It can be either "individual observations" or "moving ranges" or any name of your choice.
 The x-axis title is by default "QCno-name of peptide".}
 
 \item{type}{It can take two values, "mean" or "dispersion".}
 
-\item{selectMean}{The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+\item{selectMean}{The mean of the metric. If you know it, enter the value of mean.
+If you don't know the mean of the metric leave it as Null and it will be calculated
+ automatically by using L and U. The default is NULL.}
 
-\item{selectSD}{The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+\item{selectSD}{The standard deviatiob of the metric.
+If you know it, enter the value of standard deviation. I
+If you don't know the standard deviation of the metric leave it as Null and it will
+ be calculated automatically by using L and U. The default is NULL.}
 }
 \description{
-This function allows you to calculate X and mR statistics and draw control charts for certain QC metrics and peptides.
+This function allows you to calculate X and mR statistics
+ and draw control charts for certain QC metrics and peptides.
+}
+\examples{
+# First process the data to make sure it's ready to use
+sampleData <- DataProcess(S9Site54)
+head(sampleData)
+# Find the name of the peptides
+levels(sampleData$Precursor)
+# Calculate X and mR statistics
+XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
+XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+         ytitle = "moving ranges", type = "dispersion")
+XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+         selectMean = 27.78, selectSD = 8.19)
+XmRPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
+XmRPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+         selectMean = 35097129, selectSD = 34132861)
+XmRPlots(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
+XmRPlots(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
 \keyword{XmR}
 \keyword{chart}
