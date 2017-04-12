@@ -248,3 +248,92 @@ CUSUMPlots(S9Site54, "LVNELTEFAK", metric = "TotalPeakArea", type="dispersion", 
 
 "Control charts" tab is used to construct X and mR and CUSUMm and CUSUMv control charts.
 
+### Tip for Shiny users:
+
+"Control charts" tab is used to construct X and mR and CUSUMm and CUSUMv control charts.
+
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/3.XmR chart TAA.png" width="500">
+
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/4.CUSUM for TAA.png" width="500">
+
+## Change Point Analysis
+
+Follow-up change point analysis is helpful to identify the time of a change for each peptide and metric. `ChangePointEstimator()` function is used for the analysis. This function is one of the core functions and uses the same arguments. We recommend using this function after control charts generate an out-of-control observation. For example, retention time of TAAYVNAIEK increases over time as CUSUMm statistics increases steadily after the 20th time point. User can follow-up with `ChangePointEstimator()` function to find the exact time of retention time drift.
+
+### Example
+
+```{r, eval=FALSE}
+# Retention time >> first 20 observations are used as a guide set
+XmRPlots(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+ChangePointEstimator(S9Site54, "TAAYVNAIEK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+```
+
+We don't recommend using this function when all the observations are within control limits. In the case of retention time monitoring of LVNELTEFAK, there is no need to further analyse change point.
+
+The time of a variability change can be analyzed with the same fucntion. For example, retention time of YSTDVSVDEVK experiences a drift in the mean of retention time and variability of retention time increases simultaneously. In this case, `ChangePointEstimator()` can be used to identify exact times of both changes.
+
+### Example
+
+```{r, eval=FALSE}
+# Retention time >> first 20 observations are used as a guide set
+XmRPlots(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="mean", L = 1, U = 20)
+ChangePointEstimator(S9Site54, "YSTDVSVDEVK", metric = "RetentionTime", type="dispersion", L = 1, U = 20)
+```
+
+### Tip for Shiny users:
+
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/5.CP for TAA.png" width="500">
+
+# `MSstatsQC` functions: river and radar plots
+
+`XmRRiverPlots()` and `XmRRadarPlots()` functions are the summary functions used in `MSstatsQC`. They are used to aggregate results over all analytes for X and mR charts. For example, if user would like to aggregate the information gathered from the X charts of retention time for all analytes, upper panel of `XmRRiverPlots()` show for the increases and decreases in retention time. Next, `XmRRadarPlots()` are used to find out which peptides are affected by the problem. 
+
+### Example
+
+```{r, eval=FALSE}
+# Retention time >> first 20 observations are used as a guide set
+XmRRiverPlots(S9Site54, L=1, U=20)
+XmRRadarPlots(S9Site54, L=1, U=20)
+```
+
+`CUSUMRiverPlots()` and `CUSUMRadarPlots()` functions are the summary functions used in `MSstatsQC`. They are used to aggregate results over all analytes for CUSUMm and CUSUMv charts. For example, if user would like to aggregate the information gathered from the CUSUMm charts of retention time for all analytes, upper panel of `CUSUMRiverPlots()` show for the increases and decreases in retention time. Next, `CUSUMRadarPlots()` are used to find out which peptides are affected by the problem. 
+
+### Example
+
+```{r, eval=FALSE}
+# Retention time >> first 20 observations are used as a guide set
+CUSUMRiverPlots(S9Site54, L=1, U=20)
+CUSUMRadarPlots(S9Site54, L=1, U=20)
+```
+### Tip for Shiny users:
+
+Summary plots are available in the `Metric summary` tab under `Detailed performance: plot summaries`.
+
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/6.River and radar.png" width="500">
+
+# `MSstatsQC` functions: decision map
+
+`DecisionMap()` functions another summary function used in `MSstatsQC`. It is used to compare aggregated results over all analytes for a certain method such as XmR charts with the user defined criteria. Firstly, user defines the performance criteria and run `DecisionMap()` function to visualize overall performance. This function uses all the arguments of summary plots listed previously. Additionally, the following arguments are used
+
+### Arguments
+
+* `method`: the name of the method prefered. It is either "CUSUM" or "XmR"` interest.
+* `peptideThresholdRed`: a threshold that marks percentage of out-of-control peptides. if the percentage is above this threshold, the color is red meaning fail. Default is 0.7.
+* `peptideThresholdYellow`: a threshold that marks percentage of out-of-control peptides. if the percentage within this threshold and `peptideThresholdRed`, the color is yellow meaning warning. Default is 0.5.
+
+### Example
+
+```{r, eval=FALSE}
+# A decision map for Site 54 can be generated using the following script
+# Retention time >> first 20 observations are used as a guide set
+DecisionMap(S9Site54,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYellow = 0.10,
+                          L = 1,U = 20,type = "mean",title = "Decision map",listMean = NULL,listSD = NULL)
+```
+
+### Tip for Shiny users:
+
+Input for decision map can be selected using `Create decision rules` tab. After selection of thresholds decision maps are automatically created and  available in the `Metric summary` tab under `Detailed performance: plot summaries`.
+
+<img src="/Users/ed/Dropbox/MSstatsQC/UserManual/7.Decision input.png" width="500">
+<img src="/Users/ed/Dropbox/MSstatsQC/UserManual/8.Decisionmaps.png" width="500">
+
