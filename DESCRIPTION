@@ -18,4 +18,4 @@ Imports:
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
-biocViews: CUSUM, MSstatsQC, XmR, Preprocessing
+biocViews: quality control, system suitability testing, control charts, X, mR, CUSUM, Change point
