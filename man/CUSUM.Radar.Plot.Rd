@@ -28,8 +28,14 @@ head(sampleData)
 # Calculate CUSUM radar plot
 CUSUM.Radar.Plot(data = sampleData)
 CUSUM.Radar.Plot(data = sampleData,
-                 listMean = list("BestRetentionTime" = 27.78,"TotalArea" = 35097129, "MaxFWHM" = 0.28, "Peak Assymetry" = 0.98),
-                 listSD = list("BestRetentionTime" = 8.19,"TotalArea" = 34132861, "MaxFWHM" = 0.054, "Peak Assymetry" = 0.002)
+                 listMean = list("BestRetentionTime" = 27.78,
+                                 "TotalArea" = 35097129,
+                                 "MaxFWHM" = 0.28,
+                                 "Peak Assymetry" = 0.98),
+                 listSD = list("BestRetentionTime" = 8.19,
+                               "TotalArea" = 34132861,
+                               "MaxFWHM" = 0.054,
+                               "Peak Assymetry" = 0.002)
                  )
 }
 \keyword{CUSUM}

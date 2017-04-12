@@ -24,10 +24,13 @@
 #' levels(sampleData$Precursor)
 #' # Calculate change point statistics
 #' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime", ytitle = "Change Point Plot - dispersion", type = "dispersion")
-#' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime", selectMean = 27.78, selectSD = 8.19)
+#' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#'                      ytitle = "Change Point Plot - dispersion", type = "dispersion")
+#' ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+#'                      selectMean = 27.78, selectSD = 8.19)
 #' ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea", selectMean = 35097129, selectSD = 34132861)
+#' ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
+#'                      selectMean = 35097129, selectSD = 34132861)
 #' ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
 #' ChangePointEstimator(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 
