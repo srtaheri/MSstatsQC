@@ -334,6 +334,7 @@ DecisionMap(S9Site54,method="XmR",peptideThresholdRed = 0.25,peptideThresholdYel
 
 Input for decision map can be selected using `Create decision rules` tab. After selection of thresholds decision maps are automatically created and  available in the `Metric summary` tab under `Detailed performance: plot summaries`.
 
-<img src="/Users/ed/Dropbox/MSstatsQC/UserManual/7.Decision input.png" width="500">
-<img src="/Users/ed/Dropbox/MSstatsQC/UserManual/8.Decisionmaps.png" width="500">
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/7.Decision input.png" width="500">
+<img src="/Users/sarataheri/GitHub/MSstatsQC/vignettes/8.Decisionmaps.png" width="500">
 
+The `MSstatsQC` workflow is also summarized in a cheatsheet that is available at www.msstats.org/msstatsqc. Please refer to the cheatsheet for further information. 
