@@ -34,7 +34,7 @@
 #'                               "Peak Assymetry" = 0.002)
 #'                 )
 
-XmRSummaryPlots <- function(data = NULL, L=1, U=5, listMean=NULL, listSD=NULL) {
+XmRRiverPlots <- function(data = NULL, L=1, U=5, listMean=NULL, listSD=NULL) {
   if(is.null(data))
     return()
   if(!is.data.frame(data)){
@@ -122,7 +122,7 @@ XmRSummaryPlots <- function(data = NULL, L=1, U=5, listMean=NULL, listSD=NULL) {
 #'                               "Peak Assymetry" = 0.002)
 #'                 )
 
-CUSUMSummaryPlots <- function(data = NULL, L = 1, U = 5,
+CUSUMRiverPlots <- function(data = NULL, L = 1, U = 5,
                               listMean=NULL, listSD=NULL) {
   if(is.null(data))
     return()

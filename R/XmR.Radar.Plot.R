@@ -35,7 +35,7 @@
 #'                               "Peak Assymetry" = 0.002)
 #'                 )
 ###########################################################################################
-XmR.Radar.Plot <- function(data = NULL, L = 1, U = 5,
+XmRRadarPlots <- function(data = NULL, L = 1, U = 5,
                            listMean = NULL, listSD = NULL) {
   if(is.null(data))
     return()

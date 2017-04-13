@@ -31,7 +31,7 @@
 #'                                "Peak Assymetry" = 0.002)
 #'                  )
 
-CUSUM.Radar.Plot <- function(data = NULL, L = 1, U = 5, listMean = NULL, listSD = NULL) {
+CUSUMRadarPlots <- function(data = NULL, L = 1, U = 5, listMean = NULL, listSD = NULL) {
   if(is.null(data))
     return()
   data.metrics <- c(find_custom_metrics(data))
