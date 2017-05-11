@@ -13,8 +13,4 @@ It should contain a Precursor column and the metrics columns.}
 \description{
 This function allows you to validate the dataset for further analysis
 }
-\examples{
-# The data is "S9Site54" which is defined in the package.
-data <- DataProcess(S9Site54)
-}
 

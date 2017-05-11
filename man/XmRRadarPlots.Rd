@@ -26,23 +26,6 @@ automatically by using L and U. The default is NULL.}
 \description{
 This function allows you to draw the XmR river plot.
 }
-\examples{
-# First process the data to make sure it's ready to use
-sampleData <- DataProcess(S9Site54)
-head(sampleData)
-# Draw XmR radar plot
-XmR.Radar.Plot(data = sampleData)
-XmR.Radar.Plot(data = sampleData,
-                listMean = list("BestRetentionTime" = 27.78,
-                                "TotalArea" = 35097129,
-                                "MaxFWHM" = 0.28,
-                                "Peak Assymetry" = 0.98),
-                listSD = list("BestRetentionTime" = 8.19,
-                              "TotalArea" = 34132861,
-                              "MaxFWHM" = 0.054,
-                              "Peak Assymetry" = 0.002)
-                )
-}
 \keyword{XmR}
 \keyword{plot}
 \keyword{river}

@@ -34,6 +34,7 @@ This function allows you to calculate change point statistics for a step change 
 }
 \examples{
 # First process the data to make sure it's ready to use
+data(S9Site54)
 sampleData <- DataProcess(S9Site54)
 head(sampleData)
 # Find the name of the peptides

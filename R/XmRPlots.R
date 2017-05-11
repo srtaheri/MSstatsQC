@@ -29,23 +29,7 @@
 #' @importFrom plotly plot_ly add_trace add_lines layout
 #' @importFrom stats setNames sd
 #' @import RecordLinkage
-#' @examples
-#' # First process the data to make sure it's ready to use
-#' sampleData <- DataProcess(S9Site54)
-#' head(sampleData)
-#' # Find the name of the peptides
-#' levels(sampleData$Precursor)
-#' # Calculate X and mR statistics
-#' XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'          ytitle = "moving ranges", type = "dispersion")
-#' XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'          selectMean = 27.78, selectSD = 8.19)
-#' XmRPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' XmRPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-#'          selectMean = 35097129, selectSD = 34132861)
-#' XmRPlots(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' XmRPlots(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
+
 ################################################################################################################
 XmRPlots <- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = FALSE,
                      ytitle = "Individual Observations", type = "mean",

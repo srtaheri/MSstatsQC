@@ -14,8 +14,11 @@ LazyData: TRUE
 RoxygenNote: 5.0.1
 Imports:
     dplyr,plotly,RecordLinkage,shiny,ggplot2,ggExtra,
-    stats,grid
-Suggests: knitr,
-    rmarkdown
+    stats,grid, shinyBS, shinythemes
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
-biocViews: quality control, system suitability testing, control charts, X, mR, CUSUM, Change point
+biocViews: quality control, system suitability testing, control charts, X, mR,
+    CUSUM, Change point

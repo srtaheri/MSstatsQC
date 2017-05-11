@@ -23,23 +23,7 @@
 #' @importFrom plotly plot_ly add_markers add_lines layout
 #' @importFrom stats setNames
 #' @import RecordLinkage
-#' @examples
-#' # First process the data to make sure it's ready to use
-#' sampleData <- DataProcess(S9Site54)
-#' head(sampleData)
-#' # Find the name of the peptides
-#' levels(sampleData$Precursor)
-#' # Calculate CUSUM statistics
-#' CUSUMPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-#' CUSUMPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'            ytitle = "CUSUMv", type = "dispersion")
-#' CUSUMPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-#'            selectMean = 27.78, selectSD = 8.19)
-#' CUSUMPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-#' CUSUMPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-#'            selectMean = 35097129, selectSD = 34132861)
-#' CUSUMPlots(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-#' CUSUMPlots(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
+
 
 #################################################################################################
 CUSUMPlots<- function(data = NULL, peptide, L = 1, U = 5, metric, normalization = TRUE,

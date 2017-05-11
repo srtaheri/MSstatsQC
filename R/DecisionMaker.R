@@ -24,25 +24,6 @@
 #' @importFrom  ggExtra removeGrid rotateTextX
 #' @import RecordLinkage
 #' @import grid
-#' @examples
-#' # First process the data to make sure it's ready to use
-#' sampleData <- DataProcess(S9Site54)
-#' head(sampleData)
-#' # Draw Decision maker plot
-#' DecisionMaker(data = sampleData, method = "CUSUM")
-#' DecisionMaker(data = sampleData, method = "CUSUM", type = "dispersion")
-#' DecisionMaker(data = sampleData, method = "XmR")
-#' DecisionMaker(data = sampleData, method = "XmR", type = "dispersion")
-#' DecisionMaker(data = sampleData, method = "CUSUM", type = "mean",
-#'               listMean = list("BestRetentionTime" = 27.78,
-#'                               "TotalArea" = 35097129,
-#'                               "MaxFWHM" = 0.28,
-#'                               "Peak Assymetry" = 0.98),
-#'               listSD = list("BestRetentionTime" = 8.19,
-#'                             "TotalArea" = 34132861,
-#'                             "MaxFWHM" = 0.054,
-#'                             "Peak Assymetry" = 0.002)
-#'                  )
 
 #########################################################################################################
 DecisionMaker <- function(data = NULL, method,

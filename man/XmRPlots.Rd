@@ -42,24 +42,6 @@ If you don't know the standard deviation of the metric leave it as Null and it w
 This function allows you to calculate X and mR statistics
  and draw control charts for certain QC metrics and peptides.
 }
-\examples{
-# First process the data to make sure it's ready to use
-sampleData <- DataProcess(S9Site54)
-head(sampleData)
-# Find the name of the peptides
-levels(sampleData$Precursor)
-# Calculate X and mR statistics
-XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-         ytitle = "moving ranges", type = "dispersion")
-XmRPlots(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
-         selectMean = 27.78, selectSD = 8.19)
-XmRPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
-XmRPlots(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
-         selectMean = 35097129, selectSD = 34132861)
-XmRPlots(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
-XmRPlots(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
-}
 \keyword{XmR}
 \keyword{chart}
 \keyword{control}
