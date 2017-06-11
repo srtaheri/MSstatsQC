@@ -26,7 +26,7 @@
 #' @import grid
 
 #########################################################################################################
-DecisionMaker <- function(data = NULL, method,
+DecisionMap <- function(data = NULL, method = "XmR",
                           peptideThresholdRed = 0.7,peptideThresholdYellow = 0.5,
                           L = 1, U = 5, type = "mean", title = "heatmap plot",
                           listMean = NULL, listSD = NULL) {

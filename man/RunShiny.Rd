@@ -2,7 +2,7 @@
 % Please edit documentation in R/RunShiny.R
 \name{RunShiny}
 \alias{RunShiny}
-\title{Shiny connection for example datasets}
+\title{Shiny connection for example datasets.}
 \usage{
 RunShiny(data = NULL)
 }
@@ -11,8 +11,11 @@ RunShiny(data = NULL)
 and the metrics columns.}
 }
 \description{
-This function allows you to draw the heatmaps to help user test their decision intervals.
- This plot provides massages about overall system performance.
+Shiny connection for example datasets.
+}
+\examples{
+sampleData <- DataProcess(S9Site54)
+RunShiny(data = sampleData)
 }
 \keyword{shiny}
 

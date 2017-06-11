@@ -1,16 +1,46 @@
+getMetricData <- function(data, peptide, L, U, metric, normalization, selectMean, selectSD) {
+  #"Precursor" is one of the columns in data that shows the name of peptides
+  precursor.data<-data[data$Precursor==peptide,]
+  metricData <- 0
+  mu <- 0
+  sd <- 0
+
+  if(is.null(metric)){
+    return(NULL)
+  }
+
+  metricData = precursor.data[,metric]
+
+  if(normalization == TRUE) {
+    if(is.null(selectMean) && is.null(selectSD)) {
+      mu=mean(metricData[L:U]) # in-control process mean
+      sd=sd(metricData[L:U]) # in-control process variance
+    }else {
+      mu = selectMean
+      sd = selectSD
+    }
+
+    if(sd == 0) {sd <- 0.0001}
+    metricData=scale(metricData[seq_along(metricData)],mu,sd) # transformation for N(0,1) )
+    return(metricData)
+  } else if(normalization == FALSE){
+    return(metricData)
+  }
+
+}
 
 #########################################################################################################
-find_custom_metrics <- function(prodata) {
+find_custom_metrics <- function(data) {
 
-  prodata <- prodata[, which(colnames(prodata)=="Annotations"):ncol(prodata),drop = FALSE]
-  nums <- sapply(prodata, is.numeric)
+  data <- data[, which(colnames(data)=="Annotations"):ncol(data),drop = FALSE]
+  nums <- sapply(data, is.numeric)
   # limiting custom metrics up to 10 metrics and not more
-  # other.metrics <- colnames(prodata[,nums])[1:ifelse(length(colnames(prodata[,nums]))<11,
-  #                                                    length(colnames(prodata[,nums])),
+  # other.metrics <- colnames(data[,nums])[1:ifelse(length(colnames(data[,nums]))<11,
+  #                                                    length(colnames(data[,nums])),
   #                                                    10)
   #                                           ]
-  other.metrics <- colnames(prodata[,nums])[seq_len(ifelse(length(colnames(prodata[,nums]))<11,
-                                                     length(colnames(prodata[,nums])),
+  other.metrics <- colnames(data[,nums])[seq_len(ifelse(length(colnames(data[,nums]))<11,
+                                                     length(colnames(data[,nums])),
                                                      10))
                                             ]
   if(any(is.na(other.metrics))) {
@@ -19,16 +49,16 @@ find_custom_metrics <- function(prodata) {
   return(other.metrics)
 }
 ################################################################
-#INPUT : "prodata" is the data user uploads.
+#INPUT : "data" is the data user uploads.
 #        "metricData" is the column of the data related to the metric we want.
 #                     Forexample if we want retention time, it gives retention time column
-#        "precursorSelection" is the precursor that user selects in Data Import tab.
+#        "peptide" is the precursor that user selects in Data Import tab.
 #                             it can be either one precursor(peptide) or it can be "all peptides"
 #        "L" and "U" are lower and upper bound of guide set that user choose in Data Import tab.
 #        "type" is either "mean" or "dispersion". one is "Individual Value" plot and other
 #               "Moving Range" plot
 #DESCRIPTION : returns a data frame for CUSUM that contains all the information needed to plot CUSUM
-CUSUM.data.prepare <- function(prodata, metricData, precursorSelection, type) {
+CUSUM.data.prepare <- function(data, metricData, peptide, type) {
 
   k=0.5
   CUSUM.outrange.thld <- 5
@@ -36,7 +66,7 @@ CUSUM.data.prepare <- function(prodata, metricData, precursorSelection, type) {
   outRangeInRangeNeg = rep(0,length(metricData))
   #precursor.data only gets the data for the selected precursor
   #"Precursor" is one of the columns in data that shows the name of peptides
-  precursor.data <- prodata[prodata$Precursor==precursorSelection,]
+  precursor.data <- data[data$Precursor==peptide,]
 
   v <- numeric(length(metricData))
 
@@ -88,14 +118,14 @@ CUSUM.data.prepare <- function(prodata, metricData, precursorSelection, type) {
   return(plot.data)
 }
 ###################################################################################################
-#INPUT : "prodata" is the data user uploads.
+#INPUT : "data" is the data user uploads.
 #        "metricData" is the column of the data related to the metric we want.
 #         Forexample if we want retention time, it gives retention time column
 #        "type" is either "mean" or "dispersion". one is "Individual Value" plot and
 #               other "Moving Range" plot
 #DESCRIPTION : returns a data frame for CP that contains all the information needed to plot
 #Change Point
-CP.data.prepare <- function(prodata, metricData, type) {
+CP.data.prepare <- function(data, metricData, type) {
 
   Et <-  numeric(length(metricData)-1) # this is Ct in type = mean , and Dt in type = dispersion.
   SS<- numeric(length(metricData)-1)
@@ -135,21 +165,21 @@ CP.data.prepare <- function(prodata, metricData, type) {
   return(plot.data)
 }
 ###################################################################################################
-#INPUT : "prodata" is the data user uploads.
+#INPUT : "data" is the data user uploads.
 #        "L" and "U" are lower and upper bound of guide set that user choose in Data Import tab.
 #        "data.metrics" is all the available metrics. It is defined in server.R
-get_CP_tho.hat <- function(prodata, L, U, data.metrics, listMean, listSD) {
+get_CP_tho.hat <- function(data, L, U, data.metrics, listMean, listSD) {
   tho.hat <- data.frame(tho.hat = c(), metric = c(), group = c(), y=c())
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
   for(metric in data.metrics) {
-    #for (j in 1:nlevels(prodata$Precursor)) {
-    for (j in seq_len(nlevels(prodata$Precursor))) {
-      metricData <- getMetricData(prodata, precursors[j], L, U, metric = metric,normalization = TRUE,
+    #for (j in 1:nlevels(data$Precursor)) {
+    for (j in seq_len(nlevels(data$Precursor))) {
+      metricData <- getMetricData(data, precursors[j], L, U, metric = metric,normalization = TRUE,
                                   selectMean = listMean[[metric]],selectSD = listSD[[metric]])
       mix <- rbind(
-        data.frame(tho.hat = CP.data.prepare(prodata, metricData, type = "mean")$tho.hat[1],
+        data.frame(tho.hat = CP.data.prepare(data, metricData, type = "mean")$tho.hat[1],
                    metric = metric, group = "Individual Value", y=1.1),
-        data.frame(tho.hat = CP.data.prepare(prodata, metricData, type = "dispersion")$tho.hat[1],
+        data.frame(tho.hat = CP.data.prepare(data, metricData, type = "dispersion")$tho.hat[1],
                    metric = metric, group = "Moving Range", y=-1.1)
       )
       tho.hat <- rbind(tho.hat, mix)
@@ -160,14 +190,14 @@ get_CP_tho.hat <- function(prodata, L, U, data.metrics, listMean, listSD) {
   return(tho.hat)
 }
 ###################################################################################################
-#INPUT : "prodata" is the data user uploads.
+#INPUT : "data" is the data user uploads.
 #        "metricData" is the column of the data related to the metric we want.
 #                     Forexample if we want retention time, it gives retention time column
 #        "L" and "U" are lower and upper bound of guide set that user choose in Data Import tab.
 #        "type" is either "mean" or "dispersion". one is "Individual Value" plot and
 #         other "Moving Range" plot
 #DESCRIPTION : returns a data frame for XmR that contains all the information needed to plot XmR
-XmR.data.prepare <- function(prodata, metricData, L,U, type, selectMean,selectSD) {
+XmR.data.prepare <- function(data, metricData, L,U, type, selectMean,selectSD) {
   t <- numeric(length(metricData)-1)
   UCL <- 0
   LCL <- 0
@@ -211,31 +241,31 @@ XmR.data.prepare <- function(prodata, metricData, L,U, type, selectMean,selectSD
   return(plot.data)
 }
 ############################################################################################
-#INPUTS : "prodata" is the data user uploads.
+#INPUTS : "data" is the data user uploads.
 #         "metric" is a metric that user defines in his data set
 #         "L" and "U" are lower and upper bound of guide set that user choose in Data Import tab.
 #        "type" is either "mean" or "dispersion". one is "Individual Value" plot and
 #               other "Moving Range" plot
 #DESCRIPTION : returns a data frame that is used in CUSUM.Summary.DataFrame function below to
 #              use for summary plot of CUSUM in Summary Tab of shiny app
-CUSUM.Summary.prepare <- function(prodata, metric, L, U,type, selectMean, selectSD) {
+CUSUM.Summary.prepare <- function(data, metric, L, U,type, selectMean, selectSD) {
   h <- 5
 
-  #QCno <- 1:nrow(prodata)
-  QCno <- seq_len(nrow(prodata))
-  y.poz <- rep(0,nrow(prodata))
-  y.neg <- rep(0,nrow(prodata))
-  counter <- rep(0,nrow(prodata))
+  #QCno <- 1:nrow(data)
+  QCno <- seq_len(nrow(data))
+  y.poz <- rep(0,nrow(data))
+  y.neg <- rep(0,nrow(data))
+  counter <- rep(0,nrow(data))
 
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
 
   #for(j in 1:length(precursors)) {
   for(j in seq_len(length(precursors))) {
-    metricData <- getMetricData(prodata, precursors[j], L, U, metric = metric,
+    metricData <- getMetricData(data, precursors[j], L, U, metric = metric,
                                 normalization = TRUE, selectMean, selectSD)
     #counter[1:length(metricData)] <- counter[1:length(metricData)]+1
     counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
-    plot.data <- CUSUM.data.prepare(prodata, metricData, precursors[j], type)
+    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type)
 
     sub.poz <- plot.data[plot.data$CUSUM.poz >= h | plot.data$CUSUM.poz <= -h, ]
     sub.neg <- plot.data[plot.data$CUSUM.neg >= h | plot.data$CUSUM.neg <= -h, ]
@@ -262,15 +292,15 @@ CUSUM.Summary.prepare <- function(prodata, metric, L, U,type, selectMean, select
   return(plot.data)
 }
 ############################################################################################
-CUSUM.Summary.DataFrame <- function(prodata, data.metrics, L, U,listMean,listSD) {
+CUSUM.Summary.DataFrame <- function(data, data.metrics, L, U,listMean,listSD) {
   dat <- data.frame(QCno = c(),
                     pr.y = c(),
                     group = c(),
                     metric = c())
   for (metric in data.metrics) {
-    data.1   <- CUSUM.Summary.prepare(prodata, metric = metric, L, U,type = "mean",
+    data.1   <- CUSUM.Summary.prepare(data, metric = metric, L, U,type = "mean",
                                       selectMean = listMean[[metric]], selectSD = listSD[[metric]])
-    data.2   <- CUSUM.Summary.prepare(prodata, metric = metric, L, U,type = "dispersion",
+    data.2   <- CUSUM.Summary.prepare(data, metric = metric, L, U,type = "dispersion",
                                       selectMean = listMean[[metric]], selectSD = listSD[[metric]])
     data.2$pr.y <- -(data.2$pr.y)
     dat <- rbind(dat,data.1,data.2)
@@ -280,22 +310,22 @@ CUSUM.Summary.DataFrame <- function(prodata, data.metrics, L, U,listMean,listSD)
 ############################################################################################
 #DESCRIPTION : for each metric returns a data frame of QCno, probability of out of control
 #peptide for dispersion or mean plot
-XmR.Summary.prepare <- function(prodata, metric, L, U,type,selectMean,selectSD) {
-  #QCno    <- 1:nrow(prodata)
-  QCno    <- seq_len(nrow(prodata))
-  y.poz <- rep(0,nrow(prodata))
-  y.neg <- rep(0,nrow(prodata))
-  counter <- rep(0,nrow(prodata))
+XmR.Summary.prepare <- function(data, metric, L, U,type,selectMean,selectSD) {
+  #QCno    <- 1:nrow(data)
+  QCno    <- seq_len(nrow(data))
+  y.poz <- rep(0,nrow(data))
+  y.neg <- rep(0,nrow(data))
+  counter <- rep(0,nrow(data))
 
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
 
   #for(j in 1:length(precursors)) {
   for(j in seq_len(length(precursors))) {
-    metricData <- getMetricData(prodata, precursors[j], L = L, U = U, metric = metric,
+    metricData <- getMetricData(data, precursors[j], L = L, U = U, metric = metric,
                                 normalization = TRUE,selectMean,selectSD)
     #counter[1:length(metricData)] <- counter[1:length(metricData)]+1
     counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
-    plot.data <- XmR.data.prepare(prodata, metricData , L , U , type,selectMean,selectSD)
+    plot.data <- XmR.data.prepare(data, metricData , L , U , type,selectMean,selectSD)
 
     sub.poz <- plot.data[plot.data$t >= plot.data$UCL, ]
     sub.neg <- plot.data[plot.data$t <= plot.data$LCL, ]
@@ -321,16 +351,16 @@ XmR.Summary.prepare <- function(prodata, metric, L, U,type,selectMean,selectSD) 
 ###########################################################################################
 #DESCRIPTION : returns a data frame for all the metrics, probability of out of range peptides,
 #wheter it is for metric mean or metric dispersion and i is an increase or decrease
-XmR.Summary.DataFrame <- function(prodata, data.metrics, L, U, listMean, listSD) {
+XmR.Summary.DataFrame <- function(data, data.metrics, L, U, listMean, listSD) {
   dat <- data.frame(QCno = c(),
                     pr.y = c(),
                     group = c(),
                     metric = c())
 
   for (metric in data.metrics) {
-    data.1   <- XmR.Summary.prepare(prodata, metric = metric, L, U,type = "mean",
+    data.1   <- XmR.Summary.prepare(data, metric = metric, L, U,type = "mean",
                                     selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.2   <- XmR.Summary.prepare(prodata, metric = metric, L, U,type = "dispersion",
+    data.2   <- XmR.Summary.prepare(data, metric = metric, L, U,type = "dispersion",
                                     selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     data.2$pr.y <- -(data.2$pr.y)
     dat <- rbind(dat, data.1, data.2)
@@ -338,7 +368,7 @@ XmR.Summary.DataFrame <- function(prodata, data.metrics, L, U, listMean, listSD)
   return(dat)
 }
 ############################################################################################
-heatmap.DataFrame <- function(prodata, data.metrics,method,
+heatmap.DataFrame <- function(data, data.metrics,method,
                               peptideThresholdRed,peptideThresholdYellow, L, U,
                               type, listMean, listSD) {
 
@@ -348,7 +378,7 @@ heatmap.DataFrame <- function(prodata, data.metrics,method,
   bin <- c()
 
   for (metric in data.metrics) {
-    df <- Decision.DataFrame.prepare(prodata, metric, method,
+    df <- Decision.DataFrame.prepare(data, metric, method,
                                      peptideThresholdRed,peptideThresholdYellow,
                                      L, U,type, selectMean = listMean[[metric]],
                                      selectSD=listSD[[metric]])
@@ -371,15 +401,15 @@ heatmap.DataFrame <- function(prodata, data.metrics,method,
   return(dataFrame)
 }
 ############################################################################################
-Compute.QCno.OutOfRangePeptide.XmR <- function(prodata,L,U,metric,type,
+Compute.QCno.OutOfRangePeptide.XmR <- function(data,L,U,metric,type,
                                                XmR.type,selectMean,selectSD) {
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
   QCno.out.range <- c()
 
   for(j in seq_len(length(precursors))) {
-    metricData <- getMetricData(prodata, precursors[j], L = L, U = U,
+    metricData <- getMetricData(data, precursors[j], L = L, U = U,
                                 metric = metric, normalization = TRUE,selectMean,selectSD)
-    plot.data <- XmR.data.prepare(prodata, metricData , L = L, U = U, type,selectMean,selectSD)
+    plot.data <- XmR.data.prepare(data, metricData , L = L, U = U, type,selectMean,selectSD)
     if(XmR.type == "poz")
       QCno.out.range <- c(QCno.out.range,length(plot.data[plot.data$t >= plot.data$UCL, ]$QCno))
     else
@@ -388,16 +418,16 @@ Compute.QCno.OutOfRangePeptide.XmR <- function(prodata,L,U,metric,type,
   return(QCno.out.range)
 }
 #############################################################################################
-Compute.QCno.OutOfRangePeptide.CUSUM <- function(prodata,L,U,metric,type,
+Compute.QCno.OutOfRangePeptide.CUSUM <- function(data,L,U,metric,type,
                                                  CUSUM.type,selectMean,selectSD) {
   h <- 5
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
   QCno.out.range <- c()
 
   for(j in seq_len(length(precursors))) {
-    metricData <- getMetricData(prodata, precursors[j], L, U, metric = metric,
+    metricData <- getMetricData(data, precursors[j], L, U, metric = metric,
                                 normalization = TRUE,selectMean,selectSD)
-    plot.data <- CUSUM.data.prepare(prodata, metricData, precursors[j], type)
+    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type)
     if(CUSUM.type == "poz")
       QCno.out.range <- c(QCno.out.range,
                           length(plot.data[plot.data$CUSUM.poz >= h | plot.data$CUSUM.poz <= -h, ]$QCno))
@@ -408,19 +438,19 @@ Compute.QCno.OutOfRangePeptide.CUSUM <- function(prodata,L,U,metric,type,
   return(QCno.out.range)
 }
 ###############################################################################################################
-XmR.Radar.Plot.prepare <- function(prodata,L,U, metric, type,group,
+XmR.Radar.Plot.prepare <- function(data,L,U, metric, type,group,
                                    XmR.type,selectMean,selectSD) {
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
   precursors2 <- substring(precursors, first = 1, last = 3)
   QCno.length <- c()
   QCno.out.range.poz <- c()
   QCno.out.range.neg <- c()
   for(j in seq_len(length(precursors))) {
-    metricData <- getMetricData(prodata, precursors[j], L = L, U = U,
+    metricData <- getMetricData(data, precursors[j], L = L, U = U,
                                 metric = metric, normalization = TRUE,
                                 selectMean,selectSD)
     QCno.length <- c(QCno.length,length(metricData))
-    plot.data <- XmR.data.prepare(prodata, metricData , L = L, U = U,
+    plot.data <- XmR.data.prepare(data, metricData , L = L, U = U,
                                   type ,selectMean,selectSD)
     QCno.out.range.poz <- c(QCno.out.range.poz,
                             length(plot.data[plot.data$t >= plot.data$UCL, ]$QCno))
@@ -452,25 +482,25 @@ XmR.Radar.Plot.prepare <- function(prodata,L,U, metric, type,group,
   return(dat)
 }
 ################################################################################################
-XmR.Radar.Plot.DataFrame <- function(prodata, data.metrics, L,U, listMean, listSD) {
+XmR.Radar.Plot.DataFrame <- function(data, data.metrics, L,U, listMean, listSD) {
   dat <- data.frame(peptides = c(), OutRangeQCno = c(), group = c(),
                     orderby = c(), metric = c(), tool = c(),
                     probability   = c()
   )
   for (metric in data.metrics) {
-    data.1 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric,
+    data.1 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
                                      type = "mean",group = "Metric mean increase",
                                      XmR.type = "poz",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.2 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric,
+    data.2 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
                                      type = "mean",group = "Metric mean decrease",
                                      XmR.type = "neg",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.3 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric,
+    data.3 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
                                      type = "dispersion",group = "Metric dispersion increase",
                                      XmR.type = "poz",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.4 <- XmR.Radar.Plot.prepare(prodata,L,U,metric = metric,
+    data.4 <- XmR.Radar.Plot.prepare(data,L,U,metric = metric,
                                      type = "dispersion",group = "Metric dispersion decrease",
                                      XmR.type = "neg",
                                      selectMean = listMean[[metric]],selectSD = listSD[[metric]])
@@ -479,19 +509,19 @@ XmR.Radar.Plot.DataFrame <- function(prodata, data.metrics, L,U, listMean, listS
   return(dat)
 }
 #################################################################################################################
-CUSUM.Radar.Plot.prepare <- function(prodata,L,U, metric,type,group,
+CUSUM.Radar.Plot.prepare <- function(data,L,U, metric,type,group,
                                      CUSUM.type,selectMean, selectSD) {
   h <- 5
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
   precursors2 <- substring(precursors, first = 1, last = 3)
   QCno.length <- c()
   QCno.out.range <- c()
   #for(j in 1:length(precursors)) {
   for(j in seq_along(precursors)) {
-    metricData <- getMetricData(prodata, precursors[j], L = L, U = U,
+    metricData <- getMetricData(data, precursors[j], L = L, U = U,
                                 metric = metric, normalization = TRUE, selectMean, selectSD)
     QCno.length <- c(QCno.length,length(metricData))
-    plot.data <- CUSUM.data.prepare(prodata, metricData, precursors[j], type)
+    plot.data <- CUSUM.data.prepare(data, metricData, precursors[j], type)
 
     if(CUSUM.type == "poz")
       QCno.out.range <- c(QCno.out.range,
@@ -514,22 +544,22 @@ CUSUM.Radar.Plot.prepare <- function(prodata,L,U, metric,type,group,
   return(dat)
 }
 #################################################################################################
-CUSUM.Radar.Plot.DataFrame <- function(prodata, data.metrics, L,U, listMean, listSD) {
+CUSUM.Radar.Plot.DataFrame <- function(data, data.metrics, L,U, listMean, listSD) {
   dat <- data.frame(peptides = c(), OutRangeQCno = c(), group = c(),
                     orderby = c(), metric = c(), tool = c(),
                     probability   = c()
   )
   for (metric in data.metrics) {
-    data.1 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = "mean",
+    data.1 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "mean",
                                        group = "Metric mean increase",CUSUM.type = "poz",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.2 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = "mean",
+    data.2 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "mean",
                                        group = "Metric mean decrease", CUSUM.type = "neg",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.3 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = "dispersion",
+    data.3 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "dispersion",
                                        group = "Metric dispersion increase", CUSUM.type = "poz",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
-    data.4 <- CUSUM.Radar.Plot.prepare(prodata,L,U, metric = metric, type = "dispersion",
+    data.4 <- CUSUM.Radar.Plot.prepare(data,L,U, metric = metric, type = "dispersion",
                                        group = "Metric dispersion decrease", CUSUM.type = "neg",
                                        selectMean = listMean[[metric]],selectSD = listSD[[metric]])
     dat <- rbind(dat, data.1, data.2, data.3, data.4)
@@ -537,37 +567,37 @@ CUSUM.Radar.Plot.DataFrame <- function(prodata, data.metrics, L,U, listMean, lis
   return(dat)
 }
 #######################################################################################################
-Decision.DataFrame.prepare <- function(prodata, metric, method, peptideThresholdRed,
+Decision.DataFrame.prepare <- function(data, metric, method, peptideThresholdRed,
                                        peptideThresholdYellow, L, U,type, selectMean, selectSD) {
 
   h <- 5
-  AcquiredTime <- prodata$AcquiredTime
-  #QCno    <- 1:nrow(prodata)
-  QCno    <- seq_len(nrow(prodata))
-  y <- rep(0,nrow(prodata))
-  counter <- rep(0,nrow(prodata))
+  AcquiredTime <- data$AcquiredTime
+  #QCno    <- 1:nrow(data)
+  QCno    <- seq_len(nrow(data))
+  y <- rep(0,nrow(data))
+  counter <- rep(0,nrow(data))
 
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
 
   if(method == "XmR") {
     for(precursor in precursors) {
-      metricData <- getMetricData(prodata, precursor, L = L, U = U,
+      metricData <- getMetricData(data, precursor, L = L, U = U,
                                   metric = metric, normalization = TRUE,selectMean,selectSD)
       #counter[1:length(metricData)] <- counter[1:length(metricData)]+1
       counter[seq_along(metricData)] <- counter[ seq_along(metricData)]+1
-      plot.data <- XmR.data.prepare(prodata, metricData , L , U , type,selectMean,selectSD)
+      plot.data <- XmR.data.prepare(data, metricData , L , U , type,selectMean,selectSD)
       sub <- plot.data[plot.data$InRangeOutRange == "OutRange",]
       y[sub$QCno] <- y[sub$QCno] + 1
     }
   } else if(method == "CUSUM") {
     for(precursor in precursors) {
-      metricData <- getMetricData(prodata, precursor, L = L, U = U,
+      metricData <- getMetricData(data, precursor, L = L, U = U,
                                   metric = metric, normalization = TRUE,
                                   selectMean,selectSD)
       #counter[1:length(metricData)] <- counter[1:length(metricData)]+1
       counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
 
-      plot.data <- CUSUM.data.prepare(prodata, metricData, precursor, type)
+      plot.data <- CUSUM.data.prepare(data, metricData, precursor, type)
       sub <- plot.data[(plot.data$CUSUM.poz >= h |
                           plot.data$CUSUM.poz <= -h) |
                          (plot.data$CUSUM.neg >= h |
@@ -616,26 +646,26 @@ Decision.DataFrame.prepare <- function(prodata, metric, method, peptideThreshold
   return(plot.data)
 }
 #######################################################################################################
-number.Of.Out.Of.Range.Metrics <- function(prodata,data.metrics,method,
+number.Of.Out.Of.Range.Metrics <- function(data,data.metrics,method,
                                            peptideThresholdRed, peptideThresholdYellow,
                                            L, U, type, listMean, listSD) {
 
   metricCounterAboveRed = 0
   metricCounterAboveYellowBelowRed = 0
-  precursors <- levels(prodata$Precursor)
+  precursors <- levels(data$Precursor)
 
   for (metric in data.metrics) {
-    #QCno    <- 1:nrow(prodata)
-    QCno    <- seq_len(nrow(prodata))
-    y <- rep(0,nrow(prodata))
-    counter <- rep(0,nrow(prodata))
+    #QCno    <- 1:nrow(data)
+    QCno    <- seq_len(nrow(data))
+    y <- rep(0,nrow(data))
+    counter <- rep(0,nrow(data))
     for(precursor in precursors) {
-      metricData <- getMetricData(prodata, precursor, L = L, U = U, metric = metric,
+      metricData <- getMetricData(data, precursor, L = L, U = U, metric = metric,
                                   normalization = TRUE,listMean[[metric]],listSD[[metric]])
       #counter[1:length(metricData)] <- counter[1:length(metricData)]+1
       counter[seq_along(metricData)] <- counter[seq_along(metricData)]+1
       #if(method == "XmR") {
-      plot.data <- XmR.data.prepare(prodata, metricData , L , U ,type,
+      plot.data <- XmR.data.prepare(data, metricData , L , U ,type,
                                     selectMean = listMean[[metric]],selectSD = listSD[[metric]])
       #}
 

@@ -7,10 +7,6 @@
 # of each vector in the list, are our suggestion so we wrote them in the fisrt place.
 best_colnames <- list(
   c("AcquiredTime","Acquired.Time","time"),
-  #c("Retention Time","BestRetentionTime" ,"Best.RT","best retention time",
-  #  "retention time","rt","best ret time","intensity"),
-  #c("Full Width at Half Maximum","MaxFWHM","fwhm","max.fwhm", "Max FWHM"),
-  #c("Total Peak Area","Total Area","TotalArea","total area","TA","T.Area"),
   c("MinStartTime","min start time","Min Start Time"),
   c("MaxEndTime", "max end time","Max End Time"),
   c("Precursor","PeptideSequence"),
@@ -26,7 +22,7 @@ camelCaseSplit <- function(x) {
 punc_remove <- function(x){
   # This function removes any existing punctuation in your sentence or word
   #and transfer it to space.
-  # Ex1: punc_remove(Best.RT) --> Best RT     #Ex2: punc_remove(Best_RT) --> Best RT
+  # Ex1: punc_remove("Best.RT") --> "Best RT"     #Ex2: punc_remove("Best_RT") --> "Best RT"
   return(gsub("[[:punct:]///' ]", " ", x))
 }
 #### clearString function ###############################################################################################
@@ -66,23 +62,23 @@ guessColumnName <- function(x){
   }
 }
 #################################################################################################
-input.sanity.check <- function(prodata, finalfile) {
+input.sanity.check <- function(data, finalfile) {
 
   error_message <- ""
 
   # get the column names and change them to the column names that we want
   #(For ecample we want Retention Time but a user might use RT, this function
   #auotomatically change RT to Retention Time)
-  colnames(prodata) <- unlist(lapply(colnames(prodata), function(x)guessColumnName(x)))
+  colnames(data) <- unlist(lapply(colnames(data), function(x)guessColumnName(x)))
 
 
   ############## conditions ##############
   # check that the data includes all the requiered columns and if not tell user what column is missing
   required_column_names <- c("Precursor","Annotations")
-  if(!("Annotations" %in% colnames(prodata))) {
-    prodata[,"Annotations"] <- NA
+  if(!("Annotations" %in% colnames(data))) {
+    data[,"Annotations"] <- NA
   }
-  provided_column_names <- colnames(prodata)
+  provided_column_names <- colnames(data)
   if(!all(required_column_names %in% provided_column_names)) {
     missedInput <- which(!(required_column_names %in% provided_column_names))
     error_message <- paste("ERROR : The required input(inputs) : ",
@@ -93,12 +89,12 @@ input.sanity.check <- function(prodata, finalfile) {
 
   # check that all columns other than Precursor and Acquired Time and
   #Annotations are numeric.
-  AfterannoColNum <- (which(colnames(prodata)=="Annotations")) + 1
+  AfterannoColNum <- (which(colnames(data)=="Annotations")) + 1
 
-  for(i in  AfterannoColNum:ncol(prodata)) {
-    if(is.numeric(prodata[,i]) == FALSE) {
+  for(i in  AfterannoColNum:ncol(data)) {
+    if(is.numeric(data[,i]) == FALSE) {
       error_message <- paste(error_message, "All the values of",
-                             colnames(prodata)[i], "should be numeric and positive.\n\n")
+                             colnames(data)[i], "should be numeric and positive.\n\n")
     }
   }
 
@@ -109,14 +105,14 @@ input.sanity.check <- function(prodata, finalfile) {
   # "find_custom_metrics" function and only accepting numeric columns after Annotation
 
   # if there is any missing value in data replace it with NA
-  prodata[prodata==""] <- NA
+  data[data==""] <- NA
 
   # Define peak assymetry
   if("MinStartTime" %in% provided_column_names && "MaxEndTime" %in% provided_column_names) {
-    peakAss <- 2*prodata$MinStartTime/(prodata$MaxEndTime+prodata$MinStartTime)
+    peakAss <- 2*data$MinStartTime/(data$MaxEndTime+data$MinStartTime)
     # locate a new column named "Peak Assymetry" right after the column named "Annotation"
-    prodata[,"Peak Assymetry"] <- peakAss
+    data[,"Peak Assymetry"] <- peakAss
   }
   print("Your data is ready to go!")
-  return(prodata)
+  return(data)
 }

@@ -40,10 +40,10 @@ head(sampleData)
 # Find the name of the peptides
 levels(sampleData$Precursor)
 # Calculate change point statistics
-ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
-ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "Best.RT")
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "Best.RT",
                      ytitle = "Change Point Plot - dispersion", type = "dispersion")
-ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "Best.RT",
                      selectMean = 27.78, selectSD = 8.19)
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
