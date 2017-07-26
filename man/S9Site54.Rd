@@ -18,4 +18,3 @@ CPTAC system suitability testing data for Site 54 from Study 9.1
 \url{http://www.mcponline.org/content/early/2015/02/18/mcp.M114.047050}
 }
 \keyword{datasets}
-

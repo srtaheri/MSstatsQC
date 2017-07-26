@@ -1,12 +1,13 @@
 #' A data processing function
 #'
-#' This function allows you to validate the dataset for further analysis
-#' @param data Comma-separated (*.csv), QC file format.
-#'  It should contain a Precursor column and the metrics columns.
+#' @param data Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.
+#' @return A data frame that processes using \code{input.sanity.check} function.
 #' @export
 #' @import dplyr
 #' @import RecordLinkage
-
+#' @examples
+#' # The data is "S9Site54" which is defined in the package.
+#' data <- DataProcess(S9Site54)
 
 #########################################################################################################
 

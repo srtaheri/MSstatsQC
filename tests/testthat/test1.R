@@ -50,7 +50,7 @@ test_that("CUSUM.data.prepare is working correctly",{
 #   expect_equal(df_func,df)
 # })
 
-test_that("get_CP_tho.hat first ten rows for reten time works well",{
+test_that("get_CP_tho.hat first ten rows for retention time works well",{
   df <- c(get_CP_tho.hat(data = S9Site54, L = 1, U = 5, data.metrics = c("Best.RT"), NULL,NULL)[1:10,1])
   expect_equal(df, c(5,45,5,45,5,45,38,45,16,45))
 })

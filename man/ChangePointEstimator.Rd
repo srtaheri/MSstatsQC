@@ -2,48 +2,50 @@
 % Please edit documentation in R/ChangePointEstimator.R
 \name{ChangePointEstimator}
 \alias{ChangePointEstimator}
-\title{A Change Point (CP) Function}
+\title{A function to identify the time of a change in the mean or variability of a metric}
 \usage{
 ChangePointEstimator(data = NULL, peptide, L = 1, U = 5, metric,
   normalization = TRUE, ytitle = "Change Point Plot - mean",
   type = "mean", selectMean = NULL, selectSD = NULL)
 }
 \arguments{
-\item{data}{Comma-separated (*.csv), QC file format. It should contain a Precursor column and the metrics columns.}
+\item{data}{comma-separated (.csv), metric file. It should contain a "Precursor" column and the metrics columns. It should also include "Annotations" for each observation.}
 
-\item{peptide}{The name of precursor you want to draw the plot for}
+\item{peptide}{the name of precursor of interest.}
 
-\item{L}{Lower bound of the guide set}
+\item{L}{Lower bound of the guide set.}
 
-\item{U}{Upper bound of the guide set}
+\item{U}{Upper bound of the guide set.}
 
-\item{metric}{QC metric in your data to be monitored.}
+\item{metric}{the name of metric of interest.}
 
-\item{normalization}{TRUE if QC metric is standardized and FALSE if not standardized}
+\item{normalization}{TRUE metric is standardized and FALSE if not standardized.}
 
-\item{ytitle}{The y-axis title of the plot. It can be any name of your choice. Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
+\item{ytitle}{the y-axis title of the plot.  Defaults to "Change Point Plot - mean". The x-axis title is by default "QCno-name of peptide"}
 
-\item{type}{can take two values, "mean" or "dispersion".}
+\item{type}{the type of the control chart. Two values can be assigned, "mean" or "variability". Default is "mean".}
 
-\item{selectMean}{The mean of the metric. If you know it, enter the value of mean. If you don't know the mean of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+\item{selectMean}{the mean of a metric. It is used when mean is known. It is NULL when mean is not known.  The default is NULL.}
 
-\item{selectSD}{The standard deviatiob of the metric. If you know it, enter the value of standard deviation. If you don't know the standard deviation of the metric leave it as Null and it will be calculated automatically by using L and U. The default is NULL.}
+\item{selectSD}{the standard deviation of a metric. It is used when standard deviation is known. It is NULL when mean is not known. The default is NULL.}
+}
+\value{
+A plot of likelihood statistics versus time per peptide and metric generated from \code{CP.data.prepare} data frame.
 }
 \description{
-This function allows you to calculate change point statistics for a step change in mean or variability.
+A function to identify the time of a change in the mean or variability of a metric
 }
 \examples{
 # First process the data to make sure it's ready to use
-data(S9Site54)
 sampleData <- DataProcess(S9Site54)
 head(sampleData)
 # Find the name of the peptides
 levels(sampleData$Precursor)
 # Calculate change point statistics
-ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "Best.RT")
-ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "Best.RT",
-                     ytitle = "Change Point Plot - dispersion", type = "dispersion")
-ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "Best.RT",
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime")
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
+                     ytitle = "Change Point Plot - variability", type = "variability")
+ChangePointEstimator(data = sampleData, peptide = "VLVLDTDYK", metric = "BestRetentionTime",
                      selectMean = 27.78, selectSD = 8.19)
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea")
 ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "TotalArea",
@@ -51,8 +53,7 @@ ChangePointEstimator(data = sampleData, peptide = "DDGSWEVIEGYR", metric = "Tota
 ChangePointEstimator(data = sampleData, peptide = "TAAYVNAIEK", metric = "MaxFWHM")
 ChangePointEstimator(data = sampleData, peptide = "LVNELTEFAK", metric = "Peak Assymetry")
 }
-\keyword{Change}
+\keyword{change}
 \keyword{chart}
 \keyword{control}
 \keyword{point,}
-

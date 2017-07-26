@@ -2,7 +2,7 @@
 % Please edit documentation in R/DecisionMap.R
 \name{DecisionMap}
 \alias{DecisionMap}
-\title{Heatmaps for visualization of overall system performance}
+\title{A function to create heatmaps to compare performance with user defined performance criteria}
 \usage{
 DecisionMap(data = NULL, method = "XmR", peptideThresholdRed = 0.7,
   peptideThresholdYellow = 0.5, L = 1, U = 5, type = "mean",
@@ -35,9 +35,30 @@ it as NULL and they will be calculated automatically by using L and U. The defau
 standard deviations leave it as NULL and they will be calculated automatically by using L and U.
  The default is NULL.}
 }
+\value{
+A heatmap to aggregate results per metric generated from \code{heatmap.DataFrame} data frame.
+}
 \description{
-This function allows you to draw the heatmaps to help user test their decision
- intervals. This plot provides massages about overall system performance.
+A function to create heatmaps to compare performance with user defined performance criteria
+}
+\examples{
+# First process the data to make sure it's ready to use
+sampleData <- DataProcess(S9Site54)
+head(sampleData)
+# Draw Decision maker plot
+DecisionMap(data = sampleData, method = "CUSUM")
+DecisionMap(data = sampleData, method = "CUSUM", type = "variability")
+DecisionMap(data = sampleData, method = "XmR")
+DecisionMap(data = sampleData, method = "XmR", type = "variability")
+DecisionMap(data = sampleData, method = "CUSUM", type = "mean",
+              listMean = list("BestRetentionTime" = 27.78,
+                              "TotalArea" = 35097129,
+                              "MaxFWHM" = 0.28,
+                              "Peak Assymetry" = 0.98),
+              listSD = list("BestRetentionTime" = 8.19,
+                            "TotalArea" = 34132861,
+                            "MaxFWHM" = 0.054,
+                            "Peak Assymetry" = 0.002)
+                 )
 }
 \keyword{heatmap}
-
